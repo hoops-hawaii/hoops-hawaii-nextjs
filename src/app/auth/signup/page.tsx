@@ -44,16 +44,16 @@ const SignUp = () => {
   };
 
   return (
-    <main>
-      <Container>
-        <Row className="justify-content-center">
+    <main className='bg-dark '>
+      <Container className=''>
+        <Row className="justify-content-center pt-5 ">
           <Col xs={5}>
-            <h1 className="text-center">Sign Up</h1>
+            <h1 className="text-center text-light">Sign Up</h1>
             <Card>
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                   <Form.Group className="form-group">
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label>Username</Form.Label>
                     <input
                       type="text"
                       {...register('email')}
@@ -83,12 +83,12 @@ const SignUp = () => {
                   <Form.Group className="form-group py-3">
                     <Row>
                       <Col>
-                        <Button type="submit" className="btn btn-primary">
+                        <Button type="submit" className="btn btn-primary container-fluid">
                           Register
                         </Button>
                       </Col>
                       <Col>
-                        <Button type="button" onClick={() => reset()} className="btn btn-warning float-right">
+                        <Button type="button" onClick={() => reset()} className="btn btn-warning float-right container-fluid">
                           Reset
                         </Button>
                       </Col>

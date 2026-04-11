@@ -2,7 +2,6 @@
 
 import { signIn } from 'next-auth/react'; // v5 compatible
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
-
 /** The sign in page. */
 const SignIn = () => {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
