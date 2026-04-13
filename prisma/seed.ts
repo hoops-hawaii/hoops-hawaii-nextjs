@@ -1,8 +1,18 @@
+import 'dotenv/config';
 import { PrismaClient, Role, Condition } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
 import { hash } from 'bcrypt';
 import * as config from '../config/settings.development.json';
 
-const prisma = new PrismaClient();
+const connectionString = 
+  process.env.POSTGRES_PRISMA_URL || process.env.DATABASE_URL || process.env.POSTGRES_URL_NON_POOLING
+
+if(!connectionString){
+  throw new Error('Missing POSTGRES_PRISMA_URL or DATABASE_URL');
+}
+
+const adapter = new PrismaPg({connectionString});
+const prisma = new PrismaClient({adapter})
 
 async function main() {
   console.log('Seeding the database');
