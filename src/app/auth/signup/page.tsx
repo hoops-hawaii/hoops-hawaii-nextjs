@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react'; // v5 compatible
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { Card, Col, Container, Button, Form, Row } from 'react-bootstrap';
+import { Card, Col, Container, Button, Form, Row, Image } from 'react-bootstrap';
 import { createUser } from '@/lib/dbActions';
 
 type SignUpForm = {
@@ -44,11 +44,25 @@ const SignUp = () => {
   };
 
   return (
-    <main className='bg-dark '>
-      <Container className=''>
-        <Row className="justify-content-center pt-5 ">
+    <main className='bg-dark'>
+       <div className="position-absolute top-4 start-0 p-5 my-5 ms-3">
+    <Image
+      src="/openclipart-vectors-basketball-147794_1920.png"
+      width={150}
+      alt=""
+    />
+      </div>
+      <div className="position-absolute top-4 end-0 p-5 my-5 ms-3" style={{ top: "120px" }}>
+    <Image
+      src="/openclipart-vectors-basketball-147794_1920.png"
+      width={150}
+      alt=""
+    />
+      </div>
+      <Container>
+        <Row className="justify-content-center pt-2 ">
           <Col xs={5}>
-            <h1 className="text-center text-light">Sign Up</h1>
+            <h1 className="text-center text-light py-2">Sign Up</h1>
             <Card>
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
@@ -83,7 +97,7 @@ const SignUp = () => {
                   <Form.Group className="form-group py-3">
                     <Row>
                       <Col>
-                        <Button type="submit" className="btn btn-primary container-fluid">
+                        <Button type="submit" className="btn btn-success container-fluid">
                           Register
                         </Button>
                       </Col>
@@ -96,14 +110,15 @@ const SignUp = () => {
                   </Form.Group>
                 </Form>
               </Card.Body>
-              <Card.Footer>
+              <Card.Footer className='bg-green text-center'>
                 Already have an account?
-                <a href="/auth/signin">Sign in</a>
+                <a href="/auth/signin" className='ms-3'>Sign in</a>
               </Card.Footer>
             </Card>
           </Col>
         </Row>
       </Container>
+      
     </main>
   );
 };
