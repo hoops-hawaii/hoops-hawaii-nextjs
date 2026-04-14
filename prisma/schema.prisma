@@ -19,22 +19,49 @@ enum Role {
 
 model User {
   id       Int    @id @default(autoincrement())
-  email    String @unique
+  username    String @unique
+  pfp      String?
   password String
   role     Role   @default(USER)
+  skill Skill @default(mid)
+  bio String?
+  homeCourt Court? @relation(fields: [homeCourtId], references: [id])
+  homeCourtId Int?
 }
 
 enum Condition {
-  excellent
+  very_good
   good
-  fair
-  poor
+  mid
+  bad
+  trash
 }
 
-model Stuff {
+model Court {
   id        Int       @id @default(autoincrement())
   name      String
-  quantity  Int
-  condition Condition @default(good)
-  owner     String
+  address   String
+  environment String
+  capacity  Int
+  present   Int
+  condition Condition @default(mid)
+  news      News[]
+  users User[]
+}
+
+model News {
+  id Int @id @default(autoincrement())
+  courtId Int
+  news String
+  createdAt DateTime @default(now())
+  Court Court @relation(fields: [courtId], references: [id])
+}
+
+enum Skill {
+  goated
+  pro
+  mid
+  beginner
+  trash
+  fat_chud
 }
