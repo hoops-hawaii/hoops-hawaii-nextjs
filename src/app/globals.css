@@ -17,3 +17,11 @@ body {
 .bg-green{
   background-color: rgb(124, 184, 124);
 }
+
+.flip-horizontal {
+  transform: scaleX(-1);
+}
+
+.basketball-image{
+  transform: rotate(20deg);
+}
