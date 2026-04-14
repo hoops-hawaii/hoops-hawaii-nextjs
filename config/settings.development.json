@@ -1,12 +1,11 @@
 {
   "defaultAccounts": [
-    { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN" },
-    { "email": "john@foo.com", "password": "changeme" }
+    { "username": "admin", "password": "changeme", "role": "ADMIN" },
+    { "username": "john", "password": "changeme" }
   ],
-  "defaultData": [
-    { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
-    { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
-    { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
-    { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
+  "defaultCourts": [
+    { "name": "Warrior Rec Center", "address": "2505 Campus Rd, Honolulu", "environment": "indoor", "capacity": 125, "present": 17, "condition": "good" },
+    { "name": "Kanewai Community Park", "address": "2695 Dole St, Honolulu", "environment": "outdoor", "capacity": 200, "present": 10, "condition": "bad" },
+    { "name": "Ala Moana Beach Park", "address": "2495 Ala Moana Blvd, Honolulu", "environment": "outdoor", "capacity": 300, "present": 25, "condition": "very_good" }
   ]
 }

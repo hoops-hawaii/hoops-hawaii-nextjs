@@ -20,11 +20,13 @@ enum Role {
 model User {
   id       Int    @id @default(autoincrement())
   username    String @unique
+  pfp      String?
   password String
   role     Role   @default(USER)
   skill Skill @default(mid)
-  bio String
-  homeCourt Court
+  bio String?
+  homeCourt Court? @relation(fields: [homeCourtId], references: [id])
+  homeCourtId Int?
 }
 
 enum Condition {
@@ -38,10 +40,13 @@ enum Condition {
 model Court {
   id        Int       @id @default(autoincrement())
   name      String
+  address   String
+  environment String
   capacity  Int
   present   Int
   condition Condition @default(mid)
   news      News[]
+  users User[]
 }
 
 model News {
