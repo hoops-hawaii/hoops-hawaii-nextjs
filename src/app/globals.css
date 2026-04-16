@@ -5,8 +5,10 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
-  background-color: rgb(33, 37, 41);
+  background: fixed center url("/court1.jpg");
+  background-size: cover;
 }
+
 .wrapper {
   box-sizing: border-box;
   min-height: 100%;
