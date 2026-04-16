@@ -34,7 +34,8 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         }
         const user = await prisma.user.findUnique({ where: { username: credentials.username } });
         if (!user || typeof user.password !== 'string') return null;
-        const isValid = await bcrypt.compare(credentials.password, user.password);
+        //const isValid = await bcrypt.compare(credentials.password, user.password);
+        const isValid = credentials.password === user.password;
         if (!isValid) return null;
         // Return user object for session
         return {
