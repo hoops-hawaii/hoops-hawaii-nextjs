@@ -10,10 +10,10 @@ const ListPage = async () => {
   const session = await auth();
   loggedInProtectedPage(
     session as {
-      user: { email: string; id: string; name: string };
+      user: { username: string; id: string; name: string };
     } | null,
   );
-  const owner = (session && session.user && session.user.email) || '';
+  const owner = (session && session.user && session.user.username) || '';
   const court = await prisma.court.findMany({
     where: {
       

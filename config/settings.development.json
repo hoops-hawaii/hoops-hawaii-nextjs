@@ -1,7 +1,8 @@
 {
   "defaultAccounts": [
-    { "username": "admin", "password": "changeme", "role": "ADMIN" },
-    { "username": "john", "password": "changeme" }
+    { "username": "admin", "password": "changeme", "role": "ADMIN", "bio": "I am the administrator of the Hoops Hawaii app. I oversee the management of user accounts, court information, and ensure that the app runs smoothly for all users." },
+    { "username": "john", "password": "changeme", "role": "USER", "bio": "I am a basketball enthusiast who loves to play and watch the game. I have been playing basketball since I was a kid and enjoy competing with friends at local courts." },
+    { "username": "jane", "password": "changeme", "role": "USER", "bio": "I am a basketball enthusiast who loves to play and watch the game. I have been playing basketball since I was a kid and enjoy competing with friends at local courts." }
   ],
   "defaultCourts": [
     { "name": "Warrior Rec Center", "address": "2505 Campus Rd, Honolulu", "environment": "indoor", "capacity": 125, "present": 17, "condition": "good" },

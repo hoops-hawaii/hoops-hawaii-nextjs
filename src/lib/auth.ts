@@ -9,7 +9,6 @@ declare module 'next-auth' {
     user: {
       username: string;
       role?: string;
-      name?: string;
     } & DefaultSession['user'];
   }
 }
@@ -19,7 +18,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
   providers: [
     Credentials({
       credentials: {
-        username: { label: 'Username', type: 'username', placeholder: 'john@foo.com' },
+        username: { label: 'Username', type: 'username', placeholder: 'placeholderName' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
@@ -39,7 +38,6 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         return {
           id: user.id.toString(),
           username: user.username,
-          name: user.username,
           role: user.role,
         };
       },
