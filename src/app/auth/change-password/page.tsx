@@ -19,7 +19,7 @@ type ChangePasswordForm = {
 /** The change password page. */
 const ChangePassword = () => {
   const { data: session, status } = useSession();
-  const email = session?.user?.email || '';
+  const username = session?.user?.name || '';
   const validationSchema = Yup.object().shape({
     oldpassword: Yup.string().required('Password is required'),
     password: Yup.string()
@@ -42,7 +42,7 @@ const ChangePassword = () => {
 
   const onSubmit = async (data: ChangePasswordForm) => {
     // console.log(JSON.stringify(data, null, 2));
-    await changePassword({ email, ...data });
+    await changePassword({ username, ...data });
     await swal('Password Changed', 'Your password has been changed', 'success', { timer: 2000 });
     reset();
   };
