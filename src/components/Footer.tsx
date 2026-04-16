@@ -1,18 +1,17 @@
-import { Col, Container } from 'react-bootstrap';
+import { Col, Row, Container } from 'react-bootstrap';
+import { Facebook, Twitter, Instagram } from 'react-bootstrap-icons';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 const Footer = () => (
-  <footer className="mt-auto py-3  bg-light">
+  <footer id="bottomMenu" className="footer bg-white mt-auto py-3 fixed-bottom">
     <Container>
-      <Col className="text-center">
-        Department of Information and Computer Sciences
-        <br />
-        University of Hawaii
-        <br />
-        Honolulu, HI 96822
-        <br />
-        <a href="http://ics-software-engineering.github.io/nextjs-application-template">Template Home Page</a>
-      </Col>
+      <Row>
+        <Col className="text-center">
+          <Facebook className="mx-2" width="35"/>
+          <Twitter className="mx-2" width="35"/>
+          <Instagram className="mx-2" width="35"/>
+        </Col>
+      </Row>
     </Container>
   </footer>
 );
