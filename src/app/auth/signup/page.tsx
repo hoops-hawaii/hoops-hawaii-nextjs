@@ -44,7 +44,7 @@ const SignUp = () => {
   };
 
   return (
-    <main className='bg-dark'>
+    <main className=''>
        <div className="position-absolute top-4 start-0 p-5 my-5 ms-5">
         <Image src="/openclipart-vectors-basketball-147794_1920.png" width={200} alt="" />
       </div>
