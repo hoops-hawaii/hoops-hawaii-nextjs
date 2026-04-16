@@ -21,14 +21,8 @@ const SignIn = () => {
 
   return (
     <main>
-      <div className="position-absolute top-4 start-0 p-5 my-5 ms-5">
-        <Image src="/openclipart-vectors-basketball-147794_1920.png" width={200} alt="" />
-      </div>
-      <div className="position-absolute top-4 end-0 p-5 my-5 ms-3 flip-horizontal" style={{ top: "120px" }}>
-        <Image src="/graphicmall-basketball-10206760.png" className = "basketball-image" width={275} alt="" />
-      </div>
       <Container>
-        <Row className="justify-content-center pt-5 mt-2">
+        <Row className="justify-content-center pt-5 mt-2 ">
           <Col xs={5} >
             <Card>
               <Card.Header className='bg-green text-center'>

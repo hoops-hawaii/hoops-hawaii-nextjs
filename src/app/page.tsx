@@ -3,7 +3,7 @@ import { Col, Container, Nav, Row } from 'react-bootstrap';
 /** The Home page. */
 const Home = () => (
   <main>
-    <Container id="landing-page" fluid className="vh-100">
+    <Container id="landing-page" className="vh-100">
       <Row className="h-100 align-items-center justify-content-center ">
         <Col className="text-center text-white">
           <Nav id = 'centerTextBox'className='text-center col-4 mx-auto p-0 w-full container-fluid justify-content-center'>
