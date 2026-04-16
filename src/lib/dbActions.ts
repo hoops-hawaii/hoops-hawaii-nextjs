@@ -105,3 +105,15 @@ export async function changePassword(credentials: { username: string; password: 
     },
   });
 }
+
+export async function editProfile(username: string, bio: string, homeCourt: Court ) {
+  await prisma.user.update({
+    where: { username },
+    data: {
+      bio,
+      homeCourt: {
+        connect: { id: homeCourt.id }
+      }
+    },
+  });
+}

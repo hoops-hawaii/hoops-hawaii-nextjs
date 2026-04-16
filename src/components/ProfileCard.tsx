@@ -10,22 +10,21 @@ const ProfileCard = ({ user }: {user: User}) => {
     const { data: session, status } = useSession();
     const pathName = usePathname();
     if (status === 'loading') return null;
-    const currentUser = session?.user?.email;
-    const role = session?.user?.role;
+    const currentUser = session?.user?.username;
   return (
   <Card className="h-100">
     <Card.Header>
-      <Image src={user.pfp} width={75} alt='contact-image'/>
+      <Image src={user.pfp || '/default-pfp.png'} width={75} alt='contact-image'/>
       <Card.Title>
         {user.username}
         </Card.Title>
-        <Card.Subtitle> {user.homeCourt} </Card.Subtitle>
+        <Card.Subtitle> {user.homeCourtId} </Card.Subtitle>
     </Card.Header>
     <Card.Body>
       <Card.Text>{user.bio}</Card.Text>
     </Card.Body>
     <Card.Footer>
-      {currentUser && currentUser.username === user.username && (
+      {currentUser === user.username && (
         <Link href={`/profile/edit/${user.id}`}>Edit</Link>
       )}
     </Card.Footer>
