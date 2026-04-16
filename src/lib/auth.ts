@@ -16,6 +16,7 @@ declare module 'next-auth' {
 
 // Export v5 handlers and helpers
 export const { auth, signIn, signOut, handlers } = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     Credentials({
       credentials: {
