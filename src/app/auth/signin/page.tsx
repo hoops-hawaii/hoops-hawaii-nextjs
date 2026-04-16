@@ -7,14 +7,14 @@ const SignIn = () => {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
-      email: { value: string };
+      username: { value: string };
       password: { value: string };
     };
-    const email = target.email.value;
+    const username = target.username.value;
     const password = target.password.value;
     await signIn('credentials', {
       callbackUrl: '/list',
-      email,
+      username,
       password,
     });
   };
@@ -29,8 +29,8 @@ const SignIn = () => {
               <Card.Body>
                 <Form method="post" onSubmit={handleSubmit}>
                   <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email</Form.Label>
-                    <input name="email" type="text" className="form-control" />
+                    <Form.Label>Username</Form.Label>
+                    <input name="username" type="text" className="form-control" />
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Password</Form.Label>

@@ -6,13 +6,14 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import swal from 'sweetalert';
 import { redirect } from 'next/navigation';
-import { addStuff } from '@/lib/dbActions';
+import { addCourt } from '@/lib/dbActions';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { AddStuffSchema } from '@/lib/validationSchemas';
+import { AddStuffSchema ,AddCourtSchema} from '@/lib/validationSchemas';
+import { CourtFormData } from '@/type/court';
 
-const onSubmit = async (data: { name: string; quantity: number; owner: string; condition: string }) => {
+const onSubmit = async (data: { name: string; address: string; environment: string; capacity: number; present: number; condition: string}) => {
   // console.log(`onSubmit data: ${JSON.stringify(data, null, 2)}`);
-  await addStuff(data);
+  await addCourt(data);
   swal('Success', 'Your item has been added', 'success', {
     timer: 2000,
   });
@@ -27,8 +28,8 @@ const AddStuffForm: React.FC = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(AddStuffSchema),
+  } = useForm<CourtFormData>({
+    resolver: yupResolver(AddCourtSchema),
   });
   if (status === 'loading') {
     return <LoadingSpinner />;
@@ -59,11 +60,11 @@ const AddStuffForm: React.FC = () => {
                 <Form.Group>
                   <Form.Label>Quantity</Form.Label>
                   <input
-                    type="number"
-                    {...register('quantity')}
-                    className={`form-control ${errors.quantity ? 'is-invalid' : ''}`}
+                    type="text"
+                    {...register('address')}
+                    className={`form-control ${errors.address ? 'is-invalid' : ''}`}
                   />
-                  <div className="invalid-feedback">{errors.quantity?.message}</div>
+                  <div className="invalid-feedback">{errors.address?.message}</div>
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Condition</Form.Label>
@@ -75,7 +76,6 @@ const AddStuffForm: React.FC = () => {
                   </select>
                   <div className="invalid-feedback">{errors.condition?.message}</div>
                 </Form.Group>
-                <input type="hidden" {...register('owner')} value={currentUser} />
                 <Form.Group className="form-group">
                   <Row className="pt-3">
                     <Col>

@@ -1,10 +1,10 @@
+/*
 'use client';
 
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import swal from 'sweetalert';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Stuff } from '@prisma/client';
 import { EditStuffSchema } from '@/lib/validationSchemas';
 import { editStuff } from '@/lib/dbActions';
 
@@ -98,3 +98,4 @@ const EditStuffForm = ({ stuff }: { stuff: Stuff }) => {
 };
 
 export default EditStuffForm;
+*/

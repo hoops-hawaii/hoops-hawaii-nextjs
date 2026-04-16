@@ -7,7 +7,9 @@ import bcrypt from 'bcrypt';
 declare module 'next-auth' {
   interface Session {
     user: {
+      username: string;
       role?: string;
+      name?: string;
     } & DefaultSession['user'];
   }
 }
@@ -17,27 +19,27 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
   providers: [
     Credentials({
       credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'john@foo.com' },
+        username: { label: 'Username', type: 'username', placeholder: 'john@foo.com' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         // Type guard for credentials
         if (
           !credentials ||
-          typeof credentials.email !== 'string' ||
+          typeof credentials.username !== 'string' ||
           typeof credentials.password !== 'string'
         ) {
           return null;
         }
-        const user = await prisma.user.findUnique({ where: { email: credentials.email } });
+        const user = await prisma.user.findUnique({ where: { username: credentials.username } });
         if (!user || typeof user.password !== 'string') return null;
         const isValid = await bcrypt.compare(credentials.password, user.password);
         if (!isValid) return null;
         // Return user object for session
         return {
           id: user.id.toString(),
-          email: user.email,
-          name: user.email,
+          username: user.username,
+          name: user.username,
           role: user.role,
         };
       },
@@ -54,13 +56,16 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         user: {
           ...session.user,
           role: (token as { role?: string }).role,
+          username: (token as { username?: string }).username,
         },
       };
     },
     jwt({ token, user }) {
       // user is type: { id?: string; email?: string; name?: string; role?: string }
-      if (user && typeof (user as { role?: string }).role === 'string') {
+      //user && typeof (user as { role?: string }).role === 'string'
+      if (user) {
         token.role = (user as { role?: string }).role;
+        token.username = (user as { username?: string }).username;
       }
       return token;
     },

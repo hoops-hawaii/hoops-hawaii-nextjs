@@ -8,7 +8,7 @@ import { Card, Col, Container, Button, Form, Row, Image } from 'react-bootstrap'
 import { createUser } from '@/lib/dbActions';
 
 type SignUpForm = {
-  email: string;
+  username: string;
   password: string;
   confirmPassword: string;
   // acceptTerms: boolean;
@@ -17,7 +17,7 @@ type SignUpForm = {
 /** The sign up page. */
 const SignUp = () => {
   const validationSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email is invalid'),
+    username: Yup.string().required('Username is required').email('Username is invalid'),
     password: Yup.string()
       .required('Password is required')
       .min(6, 'Password must be at least 6 characters')
@@ -70,10 +70,10 @@ const SignUp = () => {
                     <Form.Label>Username</Form.Label>
                     <input
                       type="text"
-                      {...register('email')}
-                      className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                      {...register('username')}
+                      className={`form-control ${errors.username ? 'is-invalid' : ''}`}
                     />
-                    <div className="invalid-feedback">{errors.email?.message}</div>
+                    <div className="invalid-feedback">{errors.username?.message}</div>
                   </Form.Group>
 
                   <Form.Group className="form-group">

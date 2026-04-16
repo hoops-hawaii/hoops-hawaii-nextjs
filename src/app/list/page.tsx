@@ -14,9 +14,9 @@ const ListPage = async () => {
     } | null,
   );
   const owner = (session && session.user && session.user.email) || '';
-  const stuff = await prisma.stuff.findMany({
+  const court = await prisma.court.findMany({
     where: {
-      owner,
+      
     },
   });
   // console.log(stuff);
@@ -36,7 +36,7 @@ const ListPage = async () => {
                 </tr>
               </thead>
               <tbody>
-                {stuff.map((item) => (
+                {court.map((item) => (
                   <StuffItem key={item.id} {...item} />
                 ))}
               </tbody>

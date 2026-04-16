@@ -46,7 +46,7 @@ model Court {
   present   Int
   condition Condition @default(mid)
   news      News[]
-  users User[]
+  users     User[]
 }
 
 model News {

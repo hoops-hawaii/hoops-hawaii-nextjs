@@ -8,29 +8,31 @@ async function main() {
   const password = await hash('changeme', 10);
   config.defaultAccounts.forEach(async (account) => {
     const role = account.role as Role || Role.USER;
-    console.log(`  Creating user: ${account.email} with role: ${role}`);
+    console.log(`  Creating user: ${account.username} with role: ${role}`);
     await prisma.user.upsert({
-      where: { email: account.email },
+      where: { username: account.username },
       update: {},
       create: {
-        email: account.email,
+        username: account.username,
         password,
         role,
       },
     });
     // console.log(`  Created user: ${user.email} with role: ${user.role}`);
   });
-  for (const data of config.defaultData) {
+  for (const data of config.defaultCourts) {
     const condition = data.condition as Condition || Condition.good;
     console.log(`  Adding stuff: ${JSON.stringify(data)}`);
      
-    await prisma.stuff.upsert({
-      where: { id: config.defaultData.indexOf(data) + 1 },
+    await prisma.court.upsert({
+      where: { id: config.defaultCourts.indexOf(data) + 1 },
       update: {},
       create: {
         name: data.name,
-        quantity: data.quantity,
-        owner: data.owner,
+        address:data.address,
+        environment: data.environment,
+        capacity: data.capacity,
+        present: data.present,
         condition,
       },
     });

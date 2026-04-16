@@ -12,9 +12,9 @@ const authOptions: NextAuthConfig = {
   },
   providers: [
     CredentialsProvider({
-      name: 'Email and Password',
+      name: 'Username and Password',
       credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'john@foo.com' },
+        username: { label: 'Username', type: 'username', placeholder: 'john@foo.com' },
         password: { label: 'Password', type: 'password' },
       },
       // You should define authorize here if needed
