@@ -54,7 +54,7 @@ model News {
   courtId Int
   news String
   createdAt DateTime @default(now())
-  Court Court @relation(fields: [courtId], references: [id])
+  court Court @relation(fields: [courtId], references: [id])
 }
 
 enum Skill {

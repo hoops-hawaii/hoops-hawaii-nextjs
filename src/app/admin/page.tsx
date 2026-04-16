@@ -11,9 +11,9 @@ const AdminPage = async () => {
       user: { email: string; id: string; name: string };
     } | null,
   );
-  const stuff = await prisma.stuff.findMany({});
+  const court = await prisma.court.findMany({});
   const users = await prisma.user.findMany({});
-
+  
   return (
     <main>
       <Container id="list" fluid className="py-3">
@@ -31,7 +31,7 @@ const AdminPage = async () => {
                 </tr>
               </thead>
               <tbody>
-                {stuff.map((item) => (
+                {court.map((item) => (
                   <StuffItemAdmin key={item.id} {...item} />
                 ))}
               </tbody>
@@ -44,14 +44,14 @@ const AdminPage = async () => {
             <Table striped bordered hover>
               <thead>
                 <tr>
-                  <th>Email</th>
+                  <th>Username</th>
                   <th>Role</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id}>
-                    <td>{user.email}</td>
+                    <td>{user.username}</td>
                     <td>{user.role}</td>
                   </tr>
                 ))}
