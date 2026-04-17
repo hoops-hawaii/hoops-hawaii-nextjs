@@ -2,8 +2,8 @@
 
 import { useSession } from 'next-auth/react'; // v5 compatible
 import { usePathname } from 'next/navigation';
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { BoxArrowRight, Lock, Person, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
+import { Container, Nav, Navbar, NavDropdown, Image } from 'react-bootstrap';
+import { BoxArrowRight, Lock, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
 
 
 const NavBar: React.FC = () => {
@@ -15,8 +15,8 @@ const NavBar: React.FC = () => {
   return (
     
     <Navbar className="bg-white" expand="lg">
-      <Container>
-        <Navbar.Brand href="/">Hoops Hawai&apos;i</Navbar.Brand>
+      <Container fluid className="px-5">
+        <Navbar.Brand href="/"><Image src="\hoopshawaii.png" width="175px"alt="logo"/></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto justify-content-start">
