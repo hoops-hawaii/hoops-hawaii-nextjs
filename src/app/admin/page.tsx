@@ -8,7 +8,7 @@ const AdminPage = async () => {
   const session = await auth();
   adminProtectedPage(
     session as {
-      user: { email: string; id: string; name: string };
+      user: { username: string; id: string; name: string };
     } | null,
   );
   const court = await prisma.court.findMany({});

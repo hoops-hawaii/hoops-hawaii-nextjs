@@ -5,7 +5,7 @@ CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
 CREATE TYPE "Condition" AS ENUM ('very_good', 'good', 'mid', 'bad', 'trash');
 
 -- CreateEnum
-CREATE TYPE "Skill" AS ENUM ('goated', 'pro', 'mid', 'beginner', 'trash', 'fat_chud');
+CREATE TYPE "Skill" AS ENUM ('goated', 'pro', 'mid', 'beginner', 'trash');
 
 -- CreateTable
 CREATE TABLE "User" (

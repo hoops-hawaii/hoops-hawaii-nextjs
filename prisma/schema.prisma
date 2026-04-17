@@ -63,5 +63,4 @@ enum Skill {
   mid
   beginner
   trash
-  fat_chud
 }

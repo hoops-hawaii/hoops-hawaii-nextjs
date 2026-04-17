@@ -10,7 +10,7 @@ export default async function EditStuffPage({ params }: { params: { id: string |
   const session = await auth();
   loggedInProtectedPage(
     session as {
-      user: { email: string; id: string; name: string };
+      user: { username: string; id: string; name: string };
     } | null,
   );
   const editID: number = +id;
