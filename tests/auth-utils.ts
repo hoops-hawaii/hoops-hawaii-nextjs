@@ -1,5 +1,5 @@
 import { test as base, expect, Page } from '@playwright/test';
-
+/*
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url'; 
@@ -22,7 +22,7 @@ interface AuthFixtures {
 }
 /**
  * Authenticate using the UI with robust waiting and error handling
- */
+ 
 async function authenticateWithUI(
   page: Page,
   email: string,
@@ -106,7 +106,7 @@ async function authenticateWithUI(
 
 /**
  * Helper to fill form fields with retry logic
- */
+ 
 async function fillFormWithRetry(
   page: Page,
   fields: Array<{ selector: string; value: string }>
@@ -150,3 +150,4 @@ export const test = base.extend<AuthFixtures>({
 });
 
 export { expect } from '@playwright/test';
+*/
