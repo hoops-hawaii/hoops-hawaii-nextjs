@@ -6,7 +6,8 @@ import ProfileCard from '@/components/ProfileCard';
 
 
 /** Render a list of stuff for the logged in user. */
-const ViewProfile = async () => {
+export default async function ViewProfile({ params }: { params: { username: string } }) {
+  const { username } = await params;
   // Protect the page, only logged in users can access it.
   const session = await auth();
   loggedInProtectedPage(
@@ -14,25 +15,27 @@ const ViewProfile = async () => {
       user: { username: string; id: string; };
     } | null,
   );
-  const owner = (session && session.user && session.user.username) || '';
-  const users = await prisma.user.findMany({
+  //const owner = (session && session.user && session.user.username) || '';
+  const user = await prisma.user.findUnique({
     where: {
-      username: session?.user?.username,
+      username: username,
     },
   });
+  if(!user) {
+    return <div>User not found</div>;
+  }
   // console.log(stuff);
   return (
     <main>
       <Container id="list" fluid className="py-3">
         <Row>
           <Col>
-            <h1>Stuff</h1>
-            <ProfileCard user={users[0]} />
+            <h1>Profile</h1>
+            {user?.username}
+            <ProfileCard user={user} />
           </Col>
         </Row>
       </Container>
     </main>
   );
 };
-
-export default ViewProfile;
