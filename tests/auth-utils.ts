@@ -1,5 +1,5 @@
 import { test as base, expect, Page } from '@playwright/test';
-/*
+
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url'; 
@@ -18,14 +18,14 @@ if (!fs.existsSync(SESSION_STORAGE_PATH)) {
 
 // Define our custom fixtures
 interface AuthFixtures {
-  getUserPage: (email: string, password: string) => Promise<Page>;
+  getUserPage: (username: string, password: string) => Promise<Page>;
 }
 /**
  * Authenticate using the UI with robust waiting and error handling
- 
+ */
 async function authenticateWithUI(
   page: Page,
-  email: string,
+  username: string,
   password: string,
   sessionName: string
 ): Promise<void> {
@@ -43,19 +43,19 @@ async function authenticateWithUI(
 
       // Check if we're authenticated by looking for a sign-out option or user email
       const isAuthenticated = await Promise.race([
-        page.getByText(email).isVisible().then((visible) => visible),
-        page.getByRole('button', { name: email }).isVisible().then((visible) => visible),
+        page.getByText(username).isVisible().then((visible) => visible),
+        page.getByRole('button', { name: username }).isVisible().then((visible) => visible),
         page.getByText('Sign out').isVisible().then((visible) => visible),
         page.getByRole('button', { name: 'Sign out' }).isVisible().then((visible) => visible),
         new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 3000)),
       ]);
 
       if (isAuthenticated) {
-        console.log(`✓ Restored session for ${email}`);
+        console.log(`✓ Restored session for ${username}`);
         return;
       }
 
-      console.log(`× Saved session for ${email} expired, re-authenticating...`);
+      console.log(`× Saved session for ${username} expired, re-authenticating...`);
     } catch (error) {
       console.log(`× Error restoring session: ${error}`);
     }
@@ -63,7 +63,7 @@ async function authenticateWithUI(
 
   // If session restoration fails, authenticate via UI
   try {
-    console.log(`→ Authenticating ${email} via UI...`);
+    console.log(`→ Authenticating ${username} via UI...`);
 
     // Navigate to login page
     await page.goto(`${BASE_URL}/auth/signin`);
@@ -71,7 +71,7 @@ async function authenticateWithUI(
 
     // Fill in credentials with retry logic
     await fillFormWithRetry(page, [
-      { selector: 'input[name="email"]', value: email },
+      { selector: 'input[name="email"]', value: username },
       { selector: 'input[name="password"]', value: password },
     ]);
 
@@ -86,7 +86,7 @@ async function authenticateWithUI(
 
 
     // Wait for a clear post-login indicator (user button or sign out button)
-    const userButton = page.getByRole('button', { name: email });
+    const userButton = page.getByRole('button', { name: username });
     const signOutButton = page.getByRole('button', { name: /sign out/i });
     await Promise.any([
       expect(userButton).toBeVisible({ timeout: 10000 }),
@@ -96,17 +96,17 @@ async function authenticateWithUI(
     // Save session for future tests
     const cookies = await page.context().cookies();
     fs.writeFileSync(sessionPath, JSON.stringify({ cookies }));
-    console.log(`✓ Successfully authenticated ${email} and saved session`);
+    console.log(`✓ Successfully authenticated ${username} and saved session`);
   } catch (error) {
-    console.error(`× Authentication failed for ${email}:`, error);
+    console.error(`× Authentication failed for ${username}:`, error);
 
-    throw new Error(`Authentication failed: ${error}`);
+    throw new Error(`Authentication failed: ${username}`);
   }
 }
 
 /**
  * Helper to fill form fields with retry logic
- 
+ */
 async function fillFormWithRetry(
   page: Page,
   fields: Array<{ selector: string; value: string }>
@@ -137,11 +137,11 @@ async function fillFormWithRetry(
 // Create custom test with authenticated fixtures
 export const test = base.extend<AuthFixtures>({
   getUserPage: async ({ browser }, fixtureCallback) => {
-    const createUserPage = async (email: string, password: string) => {
+    const createUserPage = async (username: string, password: string) => {
       const context = await browser.newContext();
       const page = await context.newPage();
 
-      await authenticateWithUI(page, email, password, `session-${email}`);
+      await authenticateWithUI(page, username, password, `session-${username}`);
       return page;
     };
 
@@ -150,4 +150,3 @@ export const test = base.extend<AuthFixtures>({
 });
 
 export { expect } from '@playwright/test';
-*/
