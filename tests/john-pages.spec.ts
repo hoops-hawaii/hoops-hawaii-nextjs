@@ -11,6 +11,7 @@ test('can authenticate a specific user', async ({ getUserPage }) => {
   await expect(
     customUserPage.getByRole('button', { name: 'john' })
   ).toBeVisible({ timeout: 10000 });
+}
 /*
   // Now check for navigation links and headings
   await expect(
