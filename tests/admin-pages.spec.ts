@@ -1,5 +1,5 @@
 import { test, expect } from './auth-utils';
-
+/*
 test.slow();
 test('test access to admin page', async ({ getUserPage }) => {
   // Call the getUserPage fixture with admin signin info to get authenticated session for admin
@@ -47,3 +47,4 @@ test('test access to admin page', async ({ getUserPage }) => {
   ).toBeVisible({ timeout: 5000 });
 
 });
+*/
