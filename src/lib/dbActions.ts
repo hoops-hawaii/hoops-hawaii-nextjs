@@ -106,10 +106,12 @@ export async function changePassword(credentials: { username: string; password: 
   });
 }
 
-export async function editProfile(username: string, bio: string, homeCourt: Court ) {
+export async function editProfile(id: number, username: string, bio: string, pfp: string, homeCourt: Court ) {
   await prisma.user.update({
-    where: { username },
+    where: { id },
     data: {
+      pfp,
+      username,
       bio,
       homeCourt: {
         connect: { id: homeCourt.id }
