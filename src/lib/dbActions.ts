@@ -4,6 +4,7 @@ import { Condition, Court } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from './prisma';
+import { User } from '@prisma/client';
 
 /**
  * Adds a new stuff to the database.
@@ -106,16 +107,19 @@ export async function changePassword(credentials: { username: string; password: 
   });
 }
 
-export async function editProfile(id: number, username: string, bio: string, pfp: string, homeCourt: Court ) {
+export async function editProfile(user: User) {
   await prisma.user.update({
-    where: { id },
+    where: { id: user.id },
     data: {
-      pfp,
-      username,
-      bio,
+      pfp: user.pfp,
+      username: user.username,
+      bio: user.bio,
+      skill: user.skill,
       homeCourt: {
-        connect: { id: homeCourt.id }
-      }
+        connect: { id: user.homeCourtId! },
+      },
+      role: user.role,
+      password: user.password,
     },
   });
 }

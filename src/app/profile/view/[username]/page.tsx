@@ -2,7 +2,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { prisma } from '@/lib/prisma';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
-import ProfileCard from '@/components/ProfileCard';
+import ProfilePageCard from '@/components/ProfilePageCard';
 
 
 /** Render a list of stuff for the logged in user. */
@@ -31,8 +31,7 @@ export default async function ViewProfile({ params }: { params: { username: stri
         <Row>
           <Col>
             <h1>Profile</h1>
-            {user?.username}
-            <ProfileCard user={user} />
+            <ProfilePageCard user={user} />
           </Col>
         </Row>
       </Container>

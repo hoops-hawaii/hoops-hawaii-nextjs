@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 /* Renders a single Contact. See list/page.tsx. */
-const ProfileCard = ({ user }: {user: User}) => {
+const ProfilePageCard = ({ user }: {user: User}) => {
     const { data: session, status } = useSession();
     const pathName = usePathname();
     if (status === 'loading') return null;
@@ -25,11 +25,11 @@ const ProfileCard = ({ user }: {user: User}) => {
     </Card.Body>
     <Card.Footer>
       {currentUser === user.username && (
-        <Link href={`/profile/edit/${user.id}`}>Edit</Link>
+        <Link href={`/profile/edit/${user.username}`}>Edit</Link>
       )}
     </Card.Footer>
   </Card>
   );
 };
 
-export default ProfileCard;
+export default ProfilePageCard;
