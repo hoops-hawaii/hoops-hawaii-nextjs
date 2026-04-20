@@ -2,9 +2,12 @@
 
 import { signOut } from 'next-auth/react'; // v5 compatible
 import { Button, Col, Row , Nav} from 'react-bootstrap';
+import { useSession } from 'next-auth/react'; // v5 compatible
 
 /** After the user clicks the "SignOut" link in the NavBar, log them out and display this page. */
-const SignOut = () => (
+const SignOut = () => {
+  const { data: session } = useSession();
+  return (
   <Col id="signout-page" className="d-flex flex-column justify-content-center align-items-center text-center">
     <Nav id = 'centerTextBox'className='text-center col-4 mx-auto p-0 w-full container-fluid justify-content-center'>
     <h1 className = "text-light">Do you want to sign out?</h1>
@@ -17,7 +20,7 @@ const SignOut = () => (
         </Button>
       </Col>
       <Col>
-        <Button variant="secondary" href="/">
+        <Button variant="secondary" href={`/profile/view/${session?.user?.username}`} className="float-right">
           Cancel
         </Button>
       </Col>
@@ -25,5 +28,5 @@ const SignOut = () => (
     </Row>
   </Col>
 );
-
+};
 export default SignOut;

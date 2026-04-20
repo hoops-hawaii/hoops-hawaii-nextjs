@@ -1,115 +1,31 @@
-'use client';
+import { notFound } from 'next/navigation';
+import { User } from '@prisma/client';
+import { loggedInProtectedPage } from '@/lib/page-protection';
+import { prisma } from '@/lib/prisma';
+import { auth } from '@/lib/auth';
+import EditProfileForm from '@/components/EditProfileForm';
 
-import { useForm } from 'react-hook-form';
-import { useSession } from 'next-auth/react'; // v5 compatible
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-import swal from 'sweetalert';
-import { Card, Col, Container, Button, Form, Row } from 'react-bootstrap';
-import { changePassword } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
-
-type ChangePasswordForm = {
-  oldpassword: string;
-  password: string;
-  confirmPassword: string;
-  // acceptTerms: boolean;
-};
-
-/** The change password page. */
-const EditProfile = () => {
-  const { data: session, status } = useSession();
-  const username = session?.user?.name || '';
-  const validationSchema = Yup.object().shape({
-    oldpassword: Yup.string().required('Password is required'),
-    password: Yup.string()
-      .required('Password is required')
-      .min(6, 'Password must be at least 6 characters')
-      .max(40, 'Password must not exceed 40 characters'),
-    confirmPassword: Yup.string()
-      .required('Confirm Password is required')
-      .oneOf([Yup.ref('password'), ''], 'Confirm Password does not match'),
+export default async function EditProfilePage({ params }: { params: { username: string } }) {
+  const { username } = await params;
+  // Protect the page, only logged in users can access it.
+  const session = await auth();
+  loggedInProtectedPage(
+    session as {
+      user: { username: string; id: string; name: string };
+    } | null,
+  );
+  const user: User | null = await prisma.user.findUnique({
+    where: {
+      username: username,
+    },
   });
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<ChangePasswordForm>({
-    resolver: yupResolver(validationSchema),
-  });
-
-  const onSubmit = async (data: ChangePasswordForm) => {
-    // console.log(JSON.stringify(data, null, 2));
-    await changePassword({ username, ...data });
-    await swal('Password Changed', 'Your password has been changed', 'success', { timer: 2000 });
-    reset();
-  };
-
-  if (status === 'loading') {
-    return <LoadingSpinner />;
+  if (!user) {
+    return notFound();
   }
 
   return (
     <main>
-      <Container>
-        <Row className="justify-content-center">
-          <Col xs={5}>
-            <h1 className="text-center">Change Password</h1>
-            <Card>
-              <Card.Body>
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                  <Form.Group className="form-group">
-                    <Form.Label>Old Passord</Form.Label>
-                    <input
-                      type="password"
-                      {...register('oldpassword')}
-                      className={`form-control ${errors.oldpassword ? 'is-invalid' : ''}`}
-                    />
-                    <div className="invalid-feedback">{errors.oldpassword?.message}</div>
-                  </Form.Group>
-
-                  <Form.Group className="form-group">
-                    <Form.Label>New Password</Form.Label>
-                    <input
-                      type="password"
-                      {...register('password')}
-                      className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                    />
-                    <div className="invalid-feedback">{errors.password?.message}</div>
-                  </Form.Group>
-                  <Form.Group className="form-group">
-                    <Form.Label>Confirm Password</Form.Label>
-                    <input
-                      type="password"
-                      {...register('confirmPassword')}
-                      className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
-                    />
-                    <div className="invalid-feedback">{errors.confirmPassword?.message}</div>
-                  </Form.Group>
-                  <Form.Group className="form-group py-3">
-                    <Row>
-                      <Col>
-                        <Button type="submit" className="btn btn-primary">
-                          Change
-                        </Button>
-                      </Col>
-                      <Col>
-                        <Button type="button" onClick={() => reset()} className="btn btn-warning float-right">
-                          Reset
-                        </Button>
-                      </Col>
-                    </Row>
-                  </Form.Group>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+      <EditProfileForm user={user} />
     </main>
   );
-};
-
-export default EditProfile;
+}
