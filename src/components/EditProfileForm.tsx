@@ -9,56 +9,45 @@ import { editProfile } from '@/lib/dbActions';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { User } from '@prisma/client';
 import { EditProfileSchema } from '@/lib/validationSchemas';
-import { SubmitHandler } from 'react-hook-form';
+import { redirect } from 'next/navigation';
+import  Link  from 'next/link';
 
-  const onSubmit = async (data: User) => {
-    // console.log(JSON.stringify(data, null, 2));
-    await editProfile(data);
-    swal('Profile Updated', 'Your profile has been updated', 'success', { timer: 2000 });
-  };
-
-/** The change password page. 
-const EditProfile = ({user}: {user: User}) => {
-  const { data: session, status } = useSession();
-  const username = session?.user?.username || '';
-  /*
-  const validationSchema = Yup.object().shape({
-    oldpassword: Yup.string().required('Password is required'),
-    password: Yup.string()
-      .required('Password is required')
-      .min(6, 'Password must be at least 6 characters')
-      .max(40, 'Password must not exceed 40 characters'),
-    confirmPassword: Yup.string()
-      .required('Confirm Password is required')
-      .oneOf([Yup.ref('password'), ''], 'Confirm Password does not match'),
-  });
-  */
 
   const EditProfile = ({user}: {user: User}) => {
-  const { data: session, status } = useSession();
-  const username = session?.user?.username || '';
+
+    const onSubmit = async (data: User) => {
+    // console.log(JSON.stringify(data, null, 2));
+    await editProfile(data);
+    await update({
+      user: {
+        username: data.username,
+      },
+    });
+    swal('Profile Updated', 'Your profile has been updated', 'success', { timer: 2000 });
+    redirect(`/profile/view/${data.username}`);
+  };
+
+  const { data: session, status, update } = useSession();
+
     const {
       register,
       handleSubmit,
-      reset,
       formState: { errors },
     } = useForm<User>({
       resolver: yupResolver(EditProfileSchema),
     });
-
-/*
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<User>({
-    resolver: yupResolver(EditProfileSchema),
-  });
-  */
+    
 
   if (status === 'loading') {
     return <LoadingSpinner />;
+  }
+  if (!session) {
+    // If they aren't logged in, send them away (or show 404)
+    redirect("/not-found");
+  }
+  if (session.user.username !== user.username) {
+    // If they aren't the owner, send them away (or show 404)
+    redirect("/not-found"); 
   }
 
   return (
@@ -66,7 +55,7 @@ const EditProfile = ({user}: {user: User}) => {
       <Container>
         <Row className="justify-content-center">
           <Col xs={5}>
-            <h1 className="text-center">Change Password</h1>
+            <h1 className="text-center">Edit Profile</h1>
             <Card>
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
@@ -108,6 +97,7 @@ const EditProfile = ({user}: {user: User}) => {
                     <Form.Label>Home Court ID</Form.Label>
                     <input
                       type="number"
+                      defaultValue={user.homeCourtId ?? 0}
                       {...register('homeCourtId')}
                       className={`form-control ${errors.homeCourtId ? 'is-invalid' : ''}`}
                     />
@@ -126,15 +116,18 @@ const EditProfile = ({user}: {user: User}) => {
                   </Form.Group>
                   <Form.Group className="form-group py-3">
                     <Row>
-                      <Col>
+                      {/* Left Column: Content leans left */}
+                      <Col className="d-flex justify-content-start">
                         <Button type="submit" className="btn btn-primary">
                           Update Profile
                         </Button>
                       </Col>
-                      <Col>
-                        <Button type="button" onClick={() => reset()} className="btn btn-warning float-right">
-                          Reset
-                        </Button>
+
+                      {/* Right Column: Content leans right */}
+                      <Col className="d-flex justify-content-end">
+                        <Link href={`/profile/view/${user.username}`} className="btn btn-secondary">
+                          Cancel
+                        </Link>
                       </Col>
                     </Row>
                   </Form.Group>
