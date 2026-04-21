@@ -15,7 +15,7 @@ const CourtSearch = () => {
     if (newSearch) params.set('search', newSearch);
     if (newEnv) params.set('environment', newEnv);
     if (newCondition) params.set('condition', newCondition);
-    router.push(`/list?${params.toString()}`);
+    router.push(`/find-courts?${params.toString()}`);
   };
 
   return (
