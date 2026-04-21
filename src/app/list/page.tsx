@@ -1,42 +1,51 @@
 import { Col, Container, Row, Table } from 'react-bootstrap';
 import { prisma } from '@/lib/prisma';
+import { Court } from '@prisma/client';
 import StuffItem from '@/components/StuffItem';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
+import CourtSearch from '@/components/CourtSearch';
 
-/** Render a list of stuff for the logged in user. */
-const ListPage = async () => {
-  // Protect the page, only logged in users can access it.
+const ListPage = async ({ searchParams }: { searchParams: { search?: string; environment?: string; condition?: string } }) => {
   const session = await auth();
   loggedInProtectedPage(
     session as {
       user: { username: string; id: string; name: string };
     } | null,
   );
-  const owner = (session && session.user && session.user.username) || '';
+
+  const search = searchParams.search || '';
+  const environment = searchParams.environment || '';
+  const condition = searchParams.condition || '';
+
   const court = await prisma.court.findMany({
     where: {
-      
+      ...(search && { name: { contains: search, mode: 'insensitive' } }),
+      ...(environment && { environment }),
+      ...(condition && { condition: condition as any }),
     },
   });
-  // console.log(stuff);
+
   return (
     <main>
       <Container id="list" fluid className="py-3">
         <Row>
           <Col>
-            <h1>Stuff</h1>
+            <h1>Courts</h1>
+            <CourtSearch />
             <Table striped bordered hover>
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Quantity</th>
+                  <th>Address</th>
+                  <th>Environment</th>
+                  <th>Capacity</th>
                   <th>Condition</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {court.map((item) => (
+                {court.map((item: Court) => (
                   <StuffItem key={item.id} {...item} />
                 ))}
               </tbody>
