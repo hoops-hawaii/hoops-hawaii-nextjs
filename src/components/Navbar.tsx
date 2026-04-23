@@ -29,7 +29,7 @@ const NavBar: React.FC = () => {
                 <Nav.Link id="add-stuff-nav" href="/add" active={pathName === '/add'}>
                   Find Courts
                 </Nav.Link>
-                <Nav.Link id="add-stuff-nav" href="/add" active={pathName === '/add'}>
+                <Nav.Link id="add-stuff-nav" href="/team/view" active={pathName === '/add'}>
                   Looking For Team
                 </Nav.Link>
                 
