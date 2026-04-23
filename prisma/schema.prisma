@@ -27,6 +27,7 @@ model User {
   bio String?
   homeCourt Court? @relation(fields: [homeCourtId], references: [id])
   homeCourtId Int?
+  friends   String[]
 }
 
 enum Condition {
