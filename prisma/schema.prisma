@@ -48,6 +48,7 @@ model Court {
   condition Condition @default(mid)
   news      News[]
   users     User[]
+  imageURL  String?
 }
 
 model News {
