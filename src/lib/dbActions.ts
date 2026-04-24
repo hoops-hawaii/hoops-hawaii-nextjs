@@ -5,6 +5,8 @@ import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from './prisma';
 import { User } from '@prisma/client';
+import { Session } from 'inspector/promises';
+import { refresh } from 'next/cache';
 
 /**
  * Adds a new stuff to the database.
@@ -120,6 +122,33 @@ export async function editProfile(user: User) {
       },
       role: user.role,
       password: user.password,
+      friends: user.friends,
     },
   });
+}
+
+export async function addFriend(username: string, friendUsername: string) {
+  await prisma.user.update({
+    where: { username },
+    data: {
+      friends: {
+        push: friendUsername,
+      },
+    },
+  });
+  refresh();
+}
+
+export async function removeFriend(username: string, friendUsername: string) {
+  await prisma.user.update({
+    where: { username },
+    data: {
+      friends: {
+        set: (await prisma.user.findUnique({ where: { username } }))?.friends.filter(
+          (f) => f !== friendUsername
+        ),
+      },
+    },
+  });
+  refresh();
 }
