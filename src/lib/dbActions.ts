@@ -122,6 +122,7 @@ export async function editProfile(user: User) {
       },
       role: user.role,
       password: user.password,
+      friends: user.friends,
     },
   });
 }
