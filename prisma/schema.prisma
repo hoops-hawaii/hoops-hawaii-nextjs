@@ -30,6 +30,7 @@ model User {
   team        Team?  @relation("TeamMembers", fields: [teamId], references: [id])
   teamId      Int?
   ownedTeam   Team?  @relation("TeamOwner")
+  friends   String[]
 }
 
 model Team {
@@ -38,7 +39,6 @@ model Team {
   ownerId     Int    @unique
   users       User[] @relation("TeamMembers")
   description String
-  friends   String[]
 }
 
 enum Condition {
