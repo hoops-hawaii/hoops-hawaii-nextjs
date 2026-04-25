@@ -79,6 +79,35 @@ export async function deleteCourt(id: number) {
   redirect('/list');
 }
 
+export async function CreateTeam({
+  userId,
+  description,
+}: {
+  userId: number;
+  description: string;
+}) {
+   const existing = await prisma.team.findUnique({
+    where: { ownerId: userId },
+  });
+
+  if (existing) {
+    throw new Error("User already owns a team");
+  }
+
+ await prisma.team.create({
+    data: {
+      description,
+      owner: {
+        connect: { id: userId },
+      },
+      users: {
+        connect: { id: userId },
+      },
+    },
+  });
+  redirect('/team/teamates');
+}
+
 /**
  * Creates a new user in the database.
  * @param credentials, an object with the following properties: email, password.
@@ -93,6 +122,8 @@ export async function createUser(credentials: { username: string; password: stri
     },
   });
 }
+
+
 
 /**
  * Changes the password of an existing user in the database.
