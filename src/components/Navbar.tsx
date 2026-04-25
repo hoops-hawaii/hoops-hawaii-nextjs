@@ -32,7 +32,9 @@ const NavBar: React.FC = () => {
                 <Nav.Link id="add-stuff-nav" href="/team/view" active={pathName === '/add'}>
                   Looking For Team
                 </Nav.Link>
-                
+                <Nav.Link id="add-stuff-nav" href="/hoopers" active={pathName === '/hoopers'}>
+                  All Hoopers
+                </Nav.Link>
               </>
             )}
             {currentUser && role === 'ADMIN' && (

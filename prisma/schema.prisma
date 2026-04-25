@@ -38,6 +38,7 @@ model Team {
   ownerId     Int    @unique
   users       User[] @relation("TeamMembers")
   description String
+  friends   String[]
 }
 
 enum Condition {

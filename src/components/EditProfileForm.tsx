@@ -62,6 +62,7 @@ import  Link  from 'next/link';
                   <input type='hidden' value={user.id} {...register('id')} />
                   <input type='hidden' value={user.role} {...register('role')} />
                   <input type='hidden' value={user.password} {...register('password')} />
+                  <input type='hidden' value={user.friends} {...register('friends')} />
                   <Form.Group className="form-group">
                     <Form.Label>Username</Form.Label>
                     <input
@@ -77,7 +78,7 @@ import  Link  from 'next/link';
                     <Form.Label>Bio</Form.Label>
                     <input
                       type="text"
-                      defaultValue={user.bio ?? ' '}
+                      defaultValue={user.bio ?? ''}
                       {...register('bio')}
                       className={`form-control ${errors.bio ? 'is-invalid' : ''}`}
                     />

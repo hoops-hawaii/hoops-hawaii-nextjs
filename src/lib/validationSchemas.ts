@@ -35,4 +35,15 @@ export const EditProfileSchema = Yup.object({
   homeCourtId: Yup.number().nullable().defined(),
   skill: Yup.string().oneOf(['trash', 'beginner', 'mid', 'pro', 'goated']).required(),
   teamId: Yup.number().nullable().defined(),
+  friends: Yup.array().of(Yup.string().required()).required(),
+})
+
+export const addFriendSchema = Yup.object({
+  username: Yup.string().required(),
+  friendUsername: Yup.string().required(),
+})
+
+export const removeFriendSchema = Yup.object({
+  username: Yup.string().required(),
+  friendUsername: Yup.string().required(),
 })
