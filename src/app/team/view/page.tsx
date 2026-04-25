@@ -45,9 +45,9 @@ const View = async () => {
       <Container fluid className='align-items-center'>
         <Row>
           {teams.map((team) => (
-              <Col key={team.id}>
+              <Container key={team.id}>
                 <TeamCard team = {team}/>
-              </Col>
+              </Container>
           ))}
         </Row>
       </Container>

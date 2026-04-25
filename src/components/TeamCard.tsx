@@ -6,7 +6,7 @@ const TeamCard = ({ team }: {team: Team}) => {
 
     <Card className="h-100">
 
-
+      
     </Card>
   );
 };
