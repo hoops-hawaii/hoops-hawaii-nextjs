@@ -79,37 +79,41 @@ export async function deleteCourt(id: number) {
   redirect('/list');
 }
 
-export async function CreateTeam({
-  name,
-  userId,
-  description,
-}: {
-  name: string;
-  userId: number;
-  description: string;
-}) {
-   const existing = await prisma.team.findUnique({
-    where: { ownerId: userId },
+export async function CreateTeam({ name, description }: { name: string; description: string }) {
+  const session = await auth();
+
+  if (!session?.user?.username) {
+    throw new Error("Not authenticated");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { username: session.user.username },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const existing = await prisma.team.findUnique({
+    where: { ownerId: user.id },
   });
 
   if (existing) {
     throw new Error("User already owns a team");
   }
 
- await prisma.team.create({
+  await prisma.team.create({
     data: {
       name,
       description,
-      owner: {
-        connect: { id: userId },
-      },
-      users: {
-        connect: { id: userId },
-      },
+      owner: { connect: { id: user.id } },
+      users: { connect: { id: user.id } },
     },
   });
+
   redirect('/team/view');
 }
+
 export async function joinTeam(teamId: number) {
   const session = await auth();
 

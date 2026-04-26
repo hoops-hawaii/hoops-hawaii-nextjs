@@ -7,7 +7,6 @@ import bcrypt from 'bcrypt';
 declare module 'next-auth' {
   interface Session {
     user: {
-      id?: number;
       username: string;
       name?: string;
       role?: string;

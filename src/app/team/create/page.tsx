@@ -21,17 +21,10 @@ const CreateTeamPage: React.FC = () => {
   } = useForm<CreateTeamForm>();
 
   const onSubmit = async (data: CreateTeamForm) => {
-    console.log(session?.user?.id);
-    if (!session?.user?.id) {
-      alert('You must be logged in');
-      return;
-    }
-
     await CreateTeam({
       name: data.name,
-      userId: Number(session.user.id),
       description: data.description,
-    });
+  });
 
   };
 
