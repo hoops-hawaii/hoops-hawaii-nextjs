@@ -6,6 +6,7 @@ import { Card, Col, Container, Button, Form, Row } from 'react-bootstrap';
 import { CreateTeam } from '@/lib/dbActions';
 
 type CreateTeamForm = {
+  name: string;
   description: string;
 };
 
@@ -20,12 +21,14 @@ const CreateTeamPage: React.FC = () => {
   } = useForm<CreateTeamForm>();
 
   const onSubmit = async (data: CreateTeamForm) => {
+    console.log(session?.user?.id);
     if (!session?.user?.id) {
       alert('You must be logged in');
       return;
     }
 
     await CreateTeam({
+      name: data.name,
       userId: Number(session.user.id),
       description: data.description,
     });
@@ -44,17 +47,31 @@ const CreateTeamPage: React.FC = () => {
 
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                  
+                  <Form.Group className="form-group">
+                    <Form.Label>Team Name</Form.Label>
+
+                    <textarea
+                      {...register('name', {
+                        required: 'Name is required',
+                        maxLength: {
+                          value: 200,
+                          message: 'Must not exceed 200 characters',
+                        },
+                      })}
+                      className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                    />
+
+                    <div className="invalid-feedback">
+                      {errors.description?.message}
+                    </div>
+                  </Form.Group>
+
                   <Form.Group className="form-group">
                     <Form.Label>Team Description</Form.Label>
 
                     <textarea
                       {...register('description', {
                         required: 'Description is required',
-                        minLength: {
-                          value: 3,
-                          message: 'Must be at least 3 characters',
-                        },
                         maxLength: {
                           value: 200,
                           message: 'Must not exceed 200 characters',

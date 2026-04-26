@@ -16,7 +16,12 @@ const View = async () => {
     } | null,
   );
   const currentUser = session?.user?.username || '';
-  const teams = await prisma.team.findMany({});
+  const teams = await prisma.team.findMany({
+  include: {
+    users: true,
+    owner: true,
+  },
+});
   return (
     <main>
       <Container fluid className='py-4'>

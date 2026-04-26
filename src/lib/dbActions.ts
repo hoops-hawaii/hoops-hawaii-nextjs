@@ -7,7 +7,7 @@ import { prisma } from './prisma';
 import { User } from '@prisma/client';
 import { Session } from 'inspector/promises';
 import { refresh } from 'next/cache';
-
+import { auth } from '@/lib/auth';
 /**
  * Adds a new stuff to the database.
  * @param stuff, an object with the following properties: name, quantity, owner, condition.
@@ -80,9 +80,11 @@ export async function deleteCourt(id: number) {
 }
 
 export async function CreateTeam({
+  name,
   userId,
   description,
 }: {
+  name: string;
   userId: number;
   description: string;
 }) {
@@ -96,6 +98,7 @@ export async function CreateTeam({
 
  await prisma.team.create({
     data: {
+      name,
       description,
       owner: {
         connect: { id: userId },
@@ -105,7 +108,23 @@ export async function CreateTeam({
       },
     },
   });
-  redirect('/team/teamates');
+  redirect('/team/view');
+}
+export async function joinTeam(teamId: number) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error('Not authenticated');
+  }
+
+  const userId = Number(session.user.id);
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      teamId: teamId,
+    },
+  });
 }
 
 /**
