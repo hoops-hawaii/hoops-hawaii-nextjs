@@ -25,9 +25,24 @@ model User {
   role     Role   @default(USER)
   skill Skill @default(mid)
   bio String?
+  homeCourt Court? @relation(fields: [homeCourtId], references: [id])
+  homeCourtId Int?
   savedCourts Court[] @relation("SavedCourts")
   presentAt Court? @relation("PresentUsers", fields: [presentAtId], references: [id])
   presentAtId Int?
+  team        Team?  @relation("TeamMembers", fields: [teamId], references: [id])
+  teamId      Int?
+  ownedTeam   Team?  @relation("TeamOwner")
+  friends   String[]
+}
+
+model Team {
+  name        String
+  id          Int    @id @default(autoincrement())
+  owner       User   @relation("TeamOwner", fields: [ownerId], references: [id])
+  ownerId     Int    @unique
+  users       User[] @relation("TeamMembers")
+  description String
 }
 
 enum Condition {
@@ -49,6 +64,8 @@ model Court {
   news      News[]
   users     User[]
   imageURL  String?
+  savedByUsers User[] @relation("SavedCourts")
+  presentUsers User[] @relation("PresentUsers")
 }
 
 model News {

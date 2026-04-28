@@ -1,6 +1,6 @@
 import { Col, Container, Row, Table } from 'react-bootstrap';
 import { prisma } from '@/lib/prisma';
-import MyCourtCard from '@/components/MyCourts';
+import MyCourtsCard from '@/components/MyCourtsCard';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 
@@ -14,7 +14,7 @@ const ListPage = async () => {
     } | null,
   );
 
-  const court = await prisma.court.findMany({
+  const courts = await prisma.court.findMany({
     include: {
       news: true,
       users: true,
@@ -27,7 +27,7 @@ const ListPage = async () => {
         <Row>
           {courts.map((court) => (
             <Col key={court.id} xs={12} sm={6} md={4} lg={3} className="g-4">
-              <MyCourtCard court={court} />
+              <MyCourtsCard court={court} />
             </Col>
           ))}
         </Row>
