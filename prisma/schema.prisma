@@ -28,6 +28,21 @@ model User {
   savedCourts Court[] @relation("SavedCourts")
   presentAt Court? @relation("PresentUsers", fields: [presentAtId], references: [id])
   presentAtId Int?
+  homeCourt Court? @relation("HomeCourt", fields: [homeCourtId], references: [id])
+  homeCourtId Int?
+  team        Team?  @relation("TeamMembers", fields: [teamId], references: [id])
+  teamId      Int?
+  ownedTeam   Team?  @relation("TeamOwner")
+  friends   String[]
+}
+
+model Team {
+  name        String
+  id          Int    @id @default(autoincrement())
+  owner       User   @relation("TeamOwner", fields: [ownerId], references: [id])
+  ownerId     Int    @unique
+  users       User[] @relation("TeamMembers")
+  description String
 }
 
 enum Condition {
@@ -50,6 +65,7 @@ model Court {
   imageURL  String?
   savedByUsers User[] @relation("SavedCourts")
   presentUsers User[] @relation("PresentUsers")
+  homeUsers User[] @relation("HomeCourt")
 }
 
 model News {
@@ -59,6 +75,8 @@ model News {
   createdAt DateTime @default(now())
   court Court @relation(fields: [courtId], references: [id])
 }
+
+
 
 enum Skill {
   goated
