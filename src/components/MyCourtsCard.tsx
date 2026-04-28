@@ -49,7 +49,7 @@ const MyCourtCard = ({ court }: CourtItemProps) => {
         </>
       )}
       {flipped && (
-        <div className="text-white h-100 border-0 overflow-hidden position-relative">
+        <div className="text-green h-100 border-0 overflow-hidden position-relative">
           <div>
             <h5 className="fw-bold">{court.name}</h5>
             <hr />
