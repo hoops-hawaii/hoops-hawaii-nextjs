@@ -4,6 +4,7 @@ import { loggedInProtectedPage } from '@/lib/page-protection';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 import EditProfileForm from '@/components/EditProfileForm';
+import { Container } from 'react-bootstrap';
 
 export default async function EditProfilePage({ params }: { params: { username: string } }) {
   const { username } = await params;
@@ -25,7 +26,9 @@ export default async function EditProfilePage({ params }: { params: { username: 
 
   return (
     <main>
+      <Container className="py-5">
       <EditProfileForm user={user} />
+      </Container>
     </main>
   );
 }

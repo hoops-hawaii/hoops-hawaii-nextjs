@@ -5,7 +5,6 @@ import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from './prisma';
 import { User } from '@prisma/client';
-import { Session } from 'inspector/promises';
 import { refresh } from 'next/cache';
 import { auth } from '@/lib/auth';
 /**

@@ -3,7 +3,7 @@ import { Facebook, Twitter, Instagram } from 'react-bootstrap-icons';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 const Footer = () => (
-  <footer id="bottomMenu" className="footer bg-white mt-auto py-3 fixed-bottom">
+  <footer id="bottomMenu" className="footer bg-white mt-auto py-3">
     <Container>
       <Row>
         <Col className="text-center">
