@@ -13,6 +13,7 @@ const NavBar: React.FC = () => {
   const role = session?.user?.role;
   const currentUser = session?.user?.username || '';
   const userImage = session?.user?.image || null;
+  
   return (
     
     <Navbar className="bg-white" expand="lg">

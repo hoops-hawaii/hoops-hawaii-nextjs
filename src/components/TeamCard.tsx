@@ -4,7 +4,7 @@ import { Button, Card } from 'react-bootstrap';
 import { joinTeam } from '@/lib/dbActions';
 import { Team } from "@prisma/client";
 
-const TeamCard = ({ team }: { team: Team }) => {
+const TeamCard = ({ team, hasTeam }: { team: Team; hasTeam: boolean }) => {
   const handleJoin = async () => {
     await joinTeam(team.id);
   };
@@ -14,8 +14,8 @@ const TeamCard = ({ team }: { team: Team }) => {
       <Card.Body>
         <Card.Title>{team.name}</Card.Title>
         <Card.Text>{team.description}</Card.Text>
-        <Button onClick={handleJoin}>
-          Join Team
+        <Button onClick={handleJoin} disabled={hasTeam}>
+        {hasTeam ? 'Already in a Team' : 'Join Team'}
         </Button>
       </Card.Body>
     </Card>

@@ -5,6 +5,7 @@ import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 import { Search } from 'react-bootstrap-icons';
 import TeamCard from '@/components/TeamCard';
+import TeamSearch from '@/components/TeamSearch';
 
 /** Render a list of stuff for the logged in user. */
 const View = async () => {
@@ -16,6 +17,12 @@ const View = async () => {
     } | null,
   );
   const currentUser = session?.user?.username || '';
+  const user = await prisma.user.findUnique({
+  where: { username: currentUser },
+  select: { teamId: true },
+});
+
+  const hasTeam = !!user?.teamId;
   const teams = await prisma.team.findMany({
   include: {
     users: true,
@@ -24,38 +31,24 @@ const View = async () => {
 });
   return (
     <main>
-      <Container fluid className='py-4'>
-        <Row className="justify-content-center ">
-          <Col md={6}>
-            <InputGroup className="search-container">
-              <div className="search-container position-relative">
-                <Search className="search-icon" />
-                <Form.Control
-                type="text"
-                placeholder="Search..."
-                className="search-input"
-                />
-              </div>
-            </InputGroup>
-          </Col>
-        </Row>
-      </Container>
-      <Container fluid className='align-items-center'>
-        <div className="container-fluid d-flex justify-content-center">
-            <Link href="/team/create" className="btn btn-warning">
-              Create Team
-            </Link>
-        </div>
-      </Container>
-      <Container fluid className='align-items-center'>
-        <Row>
-          {teams.map((team) => (
-              <Container key={team.id}>
-                <TeamCard team = {team}/>
-              </Container>
-          ))}
-        </Row>
-      </Container>
+      <Container fluid className="align-items-center pt-3">
+  <Row className="justify-content-center">
+    <Col md="auto">
+      <div className="d-flex gap-3">
+        <Link href="/team/create" className="btn btn-warning">
+          Create Team
+        </Link>
+
+        {hasTeam && (
+          <Link href="/team/teammates" className="btn btn-success">
+            View My Team
+          </Link>
+        )}
+      </div>
+    </Col>
+  </Row>
+</Container>
+      <TeamSearch teams={teams} hasTeam={hasTeam} />
     </main>
   );
 };

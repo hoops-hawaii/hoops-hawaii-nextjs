@@ -116,20 +116,36 @@ export async function CreateTeam({ name, description }: { name: string; descript
 export async function joinTeam(teamId: number) {
   const session = await auth();
 
-  if (!session?.user?.id) {
+  if (!session?.user?.username) {
     throw new Error('Not authenticated');
   }
 
-  const userId = Number(session.user.id);
+  const user = await prisma.user.findUnique({
+    where: { username: session.user.username },
+    select: { teamId: true },
+  });
+
+  // Prevent joining if already in a team
+  if (user?.teamId) {
+    throw new Error('You are already in a team');
+  }
 
   await prisma.user.update({
-    where: { id: userId },
+    where: { username: session.user.username },
     data: {
       teamId: teamId,
     },
   });
 }
 
+export async function getUserTeamId(username: string) {
+  const user = await prisma.user.findUnique({
+    where: { username },
+    select: { teamId: true },
+  });
+
+  return user?.teamId || null;
+}
 /**
  * Creates a new user in the database.
  * @param credentials, an object with the following properties: email, password.
