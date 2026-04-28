@@ -30,6 +30,7 @@ const ProfileTableCard = ({ user, owner }: {user: User; owner: User}) => {
       <td>{user.skill}</td>
       <td>{user.homeCourtId}</td>
       <td>
+        
         {currentUser === user.username ? (
           <p>You</p>
         ) : owner.friends.includes(user.username) ? (

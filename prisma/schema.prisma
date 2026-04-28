@@ -27,7 +27,19 @@ model User {
   bio String?
   homeCourt Court? @relation(fields: [homeCourtId], references: [id])
   homeCourtId Int?
+  team        Team?  @relation("TeamMembers", fields: [teamId], references: [id])
+  teamId      Int?
+  ownedTeam   Team?  @relation("TeamOwner")
   friends   String[]
+}
+
+model Team {
+  name        String
+  id          Int    @id @default(autoincrement())
+  owner       User   @relation("TeamOwner", fields: [ownerId], references: [id])
+  ownerId     Int    @unique
+  users       User[] @relation("TeamMembers")
+  description String
 }
 
 enum Condition {
@@ -57,6 +69,8 @@ model News {
   createdAt DateTime @default(now())
   court Court @relation(fields: [courtId], references: [id])
 }
+
+
 
 enum Skill {
   goated
