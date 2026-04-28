@@ -1,12 +1,12 @@
 import { Col, Container, Row, Table } from 'react-bootstrap';
 import { prisma } from '@/lib/prisma';
-import type { Court } from '@prisma/client';
-import StuffItem from '@/components/StuffItem';
+import MyCourtsCard from '@/components/MyCourtsCard';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 
-
+/** Render a list of stuff for the logged in user. */
 const ListPage = async () => {
+  // Protect the page, only logged in users can access it.
   const session = await auth();
   loggedInProtectedPage(
     session as {
@@ -14,33 +14,22 @@ const ListPage = async () => {
     } | null,
   );
 
-  const court = await prisma.court.findMany();
-
+  const courts = await prisma.court.findMany({
+    include: {
+      news: true,
+      users: true,
+    },
+  });
+  // console.log(stuff);
   return (
     <main>
-      <Container id="list" fluid className="py-3">
+      <Container id="myCourts" fluid className="py-3">
         <Row>
-          <Col>
-            <h1>Courts</h1>
-            
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>Environment</th>
-                  <th>Capacity</th>
-                  <th>Condition</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {court.map((item: Court) => (
-                  <StuffItem key={item.id} {...item} />
-                ))}
-              </tbody>
-            </Table>
-          </Col>
+          {courts.map((court) => (
+            <Col key={court.id} xs={12} sm={6} md={4} lg={3} className="g-4">
+              <MyCourtsCard court={court} />
+            </Col>
+          ))}
         </Row>
       </Container>
     </main>

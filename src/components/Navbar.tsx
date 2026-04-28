@@ -13,6 +13,7 @@ const NavBar: React.FC = () => {
   const role = session?.user?.role;
   const currentUser = session?.user?.username || '';
   const userImage = session?.user?.image || null;
+  
   return (
     
     <Navbar className="bg-white" expand="lg">
@@ -29,10 +30,12 @@ const NavBar: React.FC = () => {
                 <Nav.Link id="add-stuff-nav" href="/find-courts" active={pathName === '/find-courts'}>
                   Find Courts
                 </Nav.Link>
-                <Nav.Link id="add-stuff-nav" href="/add" active={pathName === '/add'}>
+                <Nav.Link id="add-stuff-nav" href="/team/view" active={pathName === '/add'}>
                   Looking For Team
                 </Nav.Link>
-                
+                <Nav.Link id="add-stuff-nav" href="/hoopers" active={pathName === '/hoopers'}>
+                  All Hoopers
+                </Nav.Link>
               </>
             )}
             {currentUser && role === 'ADMIN' && (

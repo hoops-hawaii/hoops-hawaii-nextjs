@@ -4,7 +4,9 @@ import { Condition, Court } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from './prisma';
-
+import { User } from '@prisma/client';
+import { refresh } from 'next/cache';
+import { auth } from '@/lib/auth';
 /**
  * Adds a new stuff to the database.
  * @param stuff, an object with the following properties: name, quantity, owner, condition.
@@ -76,6 +78,74 @@ export async function deleteCourt(id: number) {
   redirect('/list');
 }
 
+export async function CreateTeam({ name, description }: { name: string; description: string }) {
+  const session = await auth();
+
+  if (!session?.user?.username) {
+    throw new Error("Not authenticated");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { username: session.user.username },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const existing = await prisma.team.findUnique({
+    where: { ownerId: user.id },
+  });
+
+  if (existing) {
+    throw new Error("User already owns a team");
+  }
+
+  await prisma.team.create({
+    data: {
+      name,
+      description,
+      owner: { connect: { id: user.id } },
+      users: { connect: { id: user.id } },
+    },
+  });
+
+  redirect('/team/view');
+}
+
+export async function joinTeam(teamId: number) {
+  const session = await auth();
+
+  if (!session?.user?.username) {
+    throw new Error('Not authenticated');
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { username: session.user.username },
+    select: { teamId: true },
+  });
+
+  // Prevent joining if already in a team
+  if (user?.teamId) {
+    throw new Error('You are already in a team');
+  }
+
+  await prisma.user.update({
+    where: { username: session.user.username },
+    data: {
+      teamId: teamId,
+    },
+  });
+}
+
+export async function getUserTeamId(username: string) {
+  const user = await prisma.user.findUnique({
+    where: { username },
+    select: { teamId: true },
+  });
+
+  return user?.teamId || null;
+}
 /**
  * Creates a new user in the database.
  * @param credentials, an object with the following properties: email, password.
@@ -90,6 +160,8 @@ export async function createUser(credentials: { username: string; password: stri
     },
   });
 }
+
+
 
 /**
  * Changes the password of an existing user in the database.
@@ -106,14 +178,46 @@ export async function changePassword(credentials: { username: string; password: 
   });
 }
 
-export async function editProfile(username: string, bio: string, homeCourt: Court ) {
+export async function editProfile(user: User) {
+  await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      pfp: user.pfp,
+      username: user.username,
+      bio: user.bio,
+      skill: user.skill,
+      homeCourt: {
+        connect: { id: user.homeCourtId! },
+      },
+      role: user.role,
+      password: user.password,
+      friends: user.friends,
+    },
+  });
+}
+
+export async function addFriend(username: string, friendUsername: string) {
   await prisma.user.update({
     where: { username },
     data: {
-      bio,
-      homeCourt: {
-        connect: { id: homeCourt.id }
-      }
+      friends: {
+        push: friendUsername,
+      },
     },
   });
+  refresh();
+}
+
+export async function removeFriend(username: string, friendUsername: string) {
+  await prisma.user.update({
+    where: { username },
+    data: {
+      friends: {
+        set: (await prisma.user.findUnique({ where: { username } }))?.friends.filter(
+          (f) => f !== friendUsername
+        ),
+      },
+    },
+  });
+  refresh();
 }

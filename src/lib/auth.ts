@@ -54,19 +54,22 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     signOut: '/auth/signout',
   },
   callbacks: {
-    session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          role: (token as { role?: string }).role,
-          username: (token as { username?: string }).username,
-        },
-      };
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.role = token.role as string;
+        session.user.username = token.username as string;
+      }
+      return session;
     },
-    jwt({ token, user }) {
-      // user is type: { id?: string; email?: string; name?: string; role?: string }
-      //user && typeof (user as { role?: string }).role === 'string'
+    async jwt({ token, user, trigger, session }) {
+      // 1. Handle explicit updates from the client
+      if (trigger === "update" && session?.user?.username) {
+        token.username = session.user.username;
+        // If you update name/role too, add them here:
+        // token.name = session.user.name; 
+      }
+
+      // 2. Handle initial sign-in (only runs when 'user' is defined)
       if (user) {
         token.role = (user as { role?: string }).role;
         token.username = (user as { username?: string }).username;
