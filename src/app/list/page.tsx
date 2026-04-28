@@ -1,6 +1,6 @@
 import { Col, Container, Row, Table } from 'react-bootstrap';
 import { prisma } from '@/lib/prisma';
-import StuffItem from '@/components/StuffItem';
+import MyCourtsCard from '@/components/MyCourtsCard';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 
@@ -13,35 +13,23 @@ const ListPage = async () => {
       user: { username: string; id: string; name: string };
     } | null,
   );
-  const owner = (session && session.user && session.user.username) || '';
-  const court = await prisma.court.findMany({
-    where: {
-      
+
+  const courts = await prisma.court.findMany({
+    include: {
+      news: true,
+      users: true,
     },
   });
   // console.log(stuff);
   return (
     <main>
-      <Container id="list" fluid className="py-3">
+      <Container id="myCourts" fluid className="py-3">
         <Row>
-          <Col>
-            <h1>Stuff</h1>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Quantity</th>
-                  <th>Condition</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {court.map((item) => (
-                  <StuffItem key={item.id} {...item} />
-                ))}
-              </tbody>
-            </Table>
-          </Col>
+          {courts.map((court) => (
+            <Col key={court.id} xs={12} sm={6} md={4} lg={3} className="g-4">
+              <MyCourtsCard court={court} />
+            </Col>
+          ))}
         </Row>
       </Container>
     </main>

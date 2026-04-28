@@ -46,6 +46,7 @@ async function main() {
         capacity: data.capacity,
         present: data.present,
         condition,
+        imageURL: data.imageURL || null,
       },
     });
   }
