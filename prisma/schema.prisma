@@ -59,6 +59,8 @@ model News {
   court Court @relation(fields: [courtId], references: [id])
 }
 
+
+
 enum Skill {
   goated
   pro
