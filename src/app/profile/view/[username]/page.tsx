@@ -2,9 +2,7 @@ import { Col, Container, Row, Image, Table, Button } from 'react-bootstrap';
 import { prisma } from '@/lib/prisma';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
-import ProfilePageCard from '@/components/ProfilePageCard';
 import ProfileTableCard from '@/components/ProfileTableCard';
-import { addFriend, removeFriend } from '@/lib/dbActions';
 
 
 /** Render a list of stuff for the logged in user. */
@@ -17,7 +15,12 @@ export default async function ViewProfile({ params }: { params: { username: stri
       user: { username: string; id: string; };
     } | null,
   );
-  //const owner = (session && session.user && session.user.username) || '';
+  const ownerName = (session!.user.username);
+  const owner = await prisma.user.findUnique({
+    where: {
+      username: ownerName,
+    },
+  });
   const user = await prisma.user.findUnique({
     where: {
       username: username,
@@ -71,7 +74,7 @@ export default async function ViewProfile({ params }: { params: { username: stri
               </thead>
               <tbody>
                 {flist.map((u) => (
-                    <ProfileTableCard key={u.id} user={u} owner={user} />
+                    <ProfileTableCard key={u.id} user={u} owner={owner!} />
                 ))}
               </tbody>
             </Table>
@@ -79,7 +82,12 @@ export default async function ViewProfile({ params }: { params: { username: stri
         </Row>
         <Row className="mt-3">
           <Col>
-            
+          {user.username === session?.user?.username && (
+            <>
+            <Button variant="warning" href={`/profile/edit/${user.username}`}>Edit Profile</Button>
+            <Button variant="danger" href='/auth/signout' >Sign Out</Button>
+            </>
+          )}
           </Col>
         </Row>
       </Container>
