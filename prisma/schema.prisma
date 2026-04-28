@@ -47,8 +47,9 @@ model Court {
   present   Int
   condition Condition @default(mid)
   news      News[]
-  users     User[]
   imageURL  String?
+  savedByUsers User[] @relation("SavedCourts")
+  presentUsers User[] @relation("PresentUsers")
 }
 
 model News {
