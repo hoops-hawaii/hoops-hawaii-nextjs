@@ -8,7 +8,7 @@ type CourtItemProps = {
 }
 
 /* Renders a single row in the List Stuff table. See list/page.tsx. */
-const MyCourtCard = ({ court }: CourtItemProps) => {
+const MyCourtsCard = ({ court }: CourtItemProps) => {
   const occupancy = `${court.present} / {court.capacity}`;
   const crowded = (court.present / court.capacity) >= 1
   return (
@@ -24,4 +24,4 @@ const MyCourtCard = ({ court }: CourtItemProps) => {
   );
 };
 
-export default MyCourtCard;
+export default MyCourtsCard;

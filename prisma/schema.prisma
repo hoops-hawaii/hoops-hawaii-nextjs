@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,37 +6,60 @@ datasource db {
   provider = "postgresql"
 }
 
-enum Role {
-  USER
-  ADMIN
-}
-
 model User {
-  id       Int    @id @default(autoincrement())
-  username    String @unique
-  pfp      String?
-  password String
-  role     Role   @default(USER)
-  skill Skill @default(mid)
-  bio String?
-  savedCourts Court[] @relation("SavedCourts")
-  presentAt Court? @relation("PresentUsers", fields: [presentAtId], references: [id])
-  presentAtId Int?
-  homeCourt Court? @relation("HomeCourt", fields: [homeCourtId], references: [id])
+  id          Int      @id @default(autoincrement())
+  username    String   @unique
+  pfp         String?
+  password    String
+  role        Role     @default(USER)
+  skill       Skill    @default(mid)
+  bio         String?
   homeCourtId Int?
-  team        Team?  @relation("TeamMembers", fields: [teamId], references: [id])
   teamId      Int?
-  ownedTeam   Team?  @relation("TeamOwner")
-  friends   String[]
+  friends     String[]
+  presentAtId Int?
+  ownedTeam   Team?    @relation("TeamOwner")
+  homeCourt   Court?   @relation(fields: [homeCourtId], references: [id])
+  presentAt   Court?   @relation("PresentUsers", fields: [presentAtId], references: [id])
+  team        Team?    @relation("TeamMembers", fields: [teamId], references: [id])
+  savedCourts Court[]  @relation("SavedCourts")
 }
 
 model Team {
-  name        String
   id          Int    @id @default(autoincrement())
-  owner       User   @relation("TeamOwner", fields: [ownerId], references: [id])
   ownerId     Int    @unique
-  users       User[] @relation("TeamMembers")
   description String
+  name        String
+  owner       User   @relation("TeamOwner", fields: [ownerId], references: [id])
+  users       User[] @relation("TeamMembers")
+}
+
+model Court {
+  id           Int       @id @default(autoincrement())
+  name         String
+  address      String
+  environment  String
+  capacity     Int
+  present      Int
+  condition    Condition @default(mid)
+  imageURL     String?
+  news         News[]
+  users        User[]
+  presentUsers User[]    @relation("PresentUsers")
+  savedByUsers User[]    @relation("SavedCourts")
+}
+
+model News {
+  id        Int      @id @default(autoincrement())
+  courtId   Int
+  news      String
+  createdAt DateTime @default(now())
+  court     Court    @relation(fields: [courtId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 enum Condition {
@@ -52,31 +69,6 @@ enum Condition {
   bad
   trash
 }
-
-model Court {
-  id        Int       @id @default(autoincrement())
-  name      String
-  address   String
-  environment String
-  capacity  Int
-  present   Int
-  condition Condition @default(mid)
-  news      News[]
-  imageURL  String?
-  savedByUsers User[] @relation("SavedCourts")
-  presentUsers User[] @relation("PresentUsers")
-  homeUsers User[] @relation("HomeCourt")
-}
-
-model News {
-  id Int @id @default(autoincrement())
-  courtId Int
-  news String
-  createdAt DateTime @default(now())
-  court Court @relation(fields: [courtId], references: [id])
-}
-
-
 
 enum Skill {
   goated
