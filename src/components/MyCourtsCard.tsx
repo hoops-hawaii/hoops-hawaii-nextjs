@@ -30,7 +30,7 @@ const MyCourtCard = ({ court }: CourtItemProps) => {
     }
   };
   return (
-    <Card className="text-green h-100 border-0 overflow-hidden position-relative">
+    <Card className="text-success h-100 border-0 overflow-hidden position-relative">
       {!flipped && (
         <>
           <Card.Img src={court.imageURL ?? "/warrior-rec.png"} alt={court.name} className="h-100 w-100" style={{ objectFit: "cover"}} />
@@ -49,7 +49,7 @@ const MyCourtCard = ({ court }: CourtItemProps) => {
         </>
       )}
       {flipped && (
-        <div className="text-green h-100 border-0 overflow-hidden position-relative">
+        <div className="text-success h-100 border-0 overflow-hidden position-relative">
           <div>
             <h5 className="fw-bold">{court.name}</h5>
             <hr />
