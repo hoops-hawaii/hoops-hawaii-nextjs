@@ -5,8 +5,8 @@
     { "username": "jane", "password": "changeme", "role": "USER", "bio": "I am a basketball enthusiast who loves to play and watch the game. I have been playing basketball since I was a kid and enjoy competing with friends at local courts." }
   ],
   "defaultCourts": [
-    { "name": "Warrior Rec Center", "address": "2505 Campus Rd, Honolulu", "environment": "indoor", "capacity": 125, "present": 17, "condition": "good", "imageURL": "public/warrior-rec.png" },
-    { "name": "Kanewai Community Park", "address": "2695 Dole St, Honolulu", "environment": "outdoor", "capacity": 200, "present": 10, "condition": "bad", "imageURL": "public/kanewai.jpg" },
-    { "name": "Manoa Valley District Park", "address": "2721 Kaaipu Ave, Honolulu", "environment": "outdoor", "capacity": 300, "present": 25, "condition": "very_good", "imageURL": "public/mvdp.jpg" }
+    { "name": "Warrior Rec Center", "address": "2505 Campus Rd, Honolulu", "environment": "indoor", "capacity": 125, "present": 0, "condition": "good", "imageURL": "/warrior-rec.png" },
+    { "name": "Kanewai Community Park", "address": "2695 Dole St, Honolulu", "environment": "outdoor", "capacity": 200, "present": 0, "condition": "bad", "imageURL": "/kanewai.jpg" },
+    { "name": "Manoa Valley District Park", "address": "2721 Kaaipu Ave, Honolulu", "environment": "outdoor", "capacity": 300, "present": 0, "condition": "very_good", "imageURL": "/mvdp.jpg" }
   ]
 }

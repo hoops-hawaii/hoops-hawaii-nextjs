@@ -7,7 +7,8 @@ import bcrypt from 'bcrypt';
 declare module 'next-auth' {
   interface Session {
     user: {
-      username: string;
+      id?: string;
+      username?: string;
       name?: string;
       role?: string;
       image?: string;
@@ -55,11 +56,15 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
   },
   callbacks: {
     async session({ session, token }) {
-      if (session.user) {
-        session.user.role = token.role as string;
-        session.user.username = token.username as string;
-      }
-      return session;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id as string | undefined,
+          username: token.username as string | undefined,
+          role: token.role as string | undefined,
+        },
+      };
     },
     async jwt({ token, user, trigger, session }) {
       // 1. Handle explicit updates from the client
@@ -71,6 +76,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 
       // 2. Handle initial sign-in (only runs when 'user' is defined)
       if (user) {
+        token.id = (user as { id?: string }).id;
         token.role = (user as { role?: string }).role;
         token.username = (user as { username?: string }).username;
       }

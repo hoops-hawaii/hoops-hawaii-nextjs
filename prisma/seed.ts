@@ -38,7 +38,15 @@ async function main() {
     console.log(`  Adding court: ${JSON.stringify(data)}`);
     await prisma.court.upsert({
       where: { id: config.defaultCourts.indexOf(data) + 1 },
-      update: {},
+      update: {
+        name: data.name,
+        address: data.address,
+        environment: data.environment,
+        capacity: data.capacity,
+        present: data.present,
+        condition,
+        imageURL: data.imageURL || null,
+      },
       create: {
         name: data.name,
         address: data.address,
