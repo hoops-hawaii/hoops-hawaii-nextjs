@@ -1,11 +1,9 @@
-import { notFound } from 'next/navigation';
 import { loggedInProtectedPage } from '@/lib/page-protection';
-import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 //import EditStuffForm from '@/components/EditStuffForm';
 
 export default async function EditStuffPage({ params }: { params: { id: string | string[] } }) {
-  const { id } = await params;
+  await params;
   // Protect the page, only logged in users can access it.
   const session = await auth();
   loggedInProtectedPage(
@@ -13,7 +11,7 @@ export default async function EditStuffPage({ params }: { params: { id: string |
       user: { username: string; id: string; name: string };
     } | null,
   );
-  const editID: number = +id;
+  return null;
   /*
   const stuff: Stuff | null = await prisma.stuff.findUnique({
     where: {

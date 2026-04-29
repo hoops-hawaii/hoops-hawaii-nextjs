@@ -8,7 +8,7 @@ import swal from 'sweetalert';
 import { redirect } from 'next/navigation';
 import { addCourt } from '@/lib/dbActions';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { AddStuffSchema ,AddCourtSchema} from '@/lib/validationSchemas';
+import { AddCourtSchema } from '@/lib/validationSchemas';
 import { CourtFormData } from '@/type/court';
 
 const onSubmit = async (data: { name: string; address: string; environment: string; capacity: number; present: number; condition: string}) => {
@@ -20,9 +20,8 @@ const onSubmit = async (data: { name: string; address: string; environment: stri
 };
 
 const AddStuffForm: React.FC = () => {
-  const { data: session, status } = useSession();
-  // console.log('AddStuffForm', status, session);
-  const currentUser = session?.user?.email || '';
+  const { status } = useSession();
+  // console.log('AddStuffForm', status);
   const {
     register,
     handleSubmit,

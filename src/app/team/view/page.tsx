@@ -1,10 +1,8 @@
 import Link from 'next/link';
-import { Col, Container, Row,Form, InputGroup, Navbar, Nav,} from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { prisma } from '@/lib/prisma';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
-import { Search } from 'react-bootstrap-icons';
-import TeamCard from '@/components/TeamCard';
 import TeamSearch from '@/components/TeamSearch';
 
 /** Render a list of stuff for the logged in user. */

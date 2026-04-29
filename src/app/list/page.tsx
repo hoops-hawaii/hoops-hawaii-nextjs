@@ -1,4 +1,4 @@
-import { Col, Container, Row, Table } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { prisma } from '@/lib/prisma';
 import MyCourtsCard from '@/components/MyCourtsCard';
 import { loggedInProtectedPage } from '@/lib/page-protection';

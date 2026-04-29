@@ -1,6 +1,5 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { Card, Col, Container, Button, Form, Row } from 'react-bootstrap';
 import { CreateTeam } from '@/lib/dbActions';
@@ -11,8 +10,6 @@ type CreateTeamForm = {
 };
 
 const CreateTeamPage: React.FC = () => {
-  const { data: session } = useSession();
-
   const {
     register,
     handleSubmit,

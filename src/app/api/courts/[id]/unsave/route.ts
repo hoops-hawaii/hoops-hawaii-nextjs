@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
+type AuthRequest = NextRequest & { auth?: { user?: { id?: string } } };
+
 export const POST = auth(async (request: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
   try {
-    const session = (request as any).auth;
+    const session = (request as AuthRequest).auth;
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

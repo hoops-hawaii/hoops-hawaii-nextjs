@@ -3,7 +3,6 @@ import { Card, Image } from 'react-bootstrap';
 import { User } from '@prisma/client';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { prisma } from '@/lib/prisma';
 
 /* Renders a single Contact. See list/page.tsx. */
 const ProfilePageCard = ({ user }: {user: User}) => {
