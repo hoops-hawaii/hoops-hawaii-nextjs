@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 import TeammateCard from '@/components/TeammateCard';
-
+import { disbandTeam, leaveTeam } from '@/lib/dbActions';
 /** Render a list of stuff for the logged in user. */
 const Teammates = async () => {
   // Protect the page, only logged in users can access it.
@@ -38,19 +38,19 @@ const inTeam = !!team;
         <Row>
           <Col className="d-flex justify-content-center gap-3">
                   {isOwner && (
-        //<form action={disbandTeam}>
+        <form action={disbandTeam}>
           <button className="btn btn-danger">
             Disband Team
           </button>
-        //</form>
+        </form>
       )}
 
       {!isOwner && inTeam && (
-        //<form action={leaveTeam}>
+        <form action={leaveTeam}>
           <button className="btn btn-warning">
             Leave Team
           </button>
-       // </form>
+        </form>
       )}
                 </Col>
             </Row>

@@ -136,7 +136,57 @@ export async function joinTeam(teamId: number) {
       teamId: teamId,
     },
   });
+  redirect('/team/view');
 }
+
+export async function disbandTeam() {
+  const session = await auth();
+
+  if (!session?.user?.username) {
+    throw new Error('Not authenticated');
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { username: session.user.username },
+  });
+
+  if (!user) throw new Error('User not found');
+
+  const team = await prisma.team.findUnique({
+    where: { ownerId: user.id },
+  });
+
+  if (!team) throw new Error('Not team owner');
+
+  // remove all users from team
+  await prisma.user.updateMany({
+    where: { teamId: team.id },
+    data: { teamId: null },
+  });
+
+  // delete team
+  await prisma.team.delete({
+    where: { id: team.id },
+  });
+  redirect('/team/view');
+}
+
+export async function leaveTeam() {
+  const session = await auth();
+
+  if (!session?.user?.username) {
+    throw new Error('Not authenticated');
+  }
+
+  await prisma.user.update({
+    where: { username: session.user.username },
+    data: {
+      teamId: null,
+    },
+  });
+}
+
+
 
 export async function getUserTeamId(username: string) {
   const user = await prisma.user.findUnique({
