@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { Court } from '@prisma/client';
 import { Button, Card } from 'react-bootstrap';
+import { saveCourts } from '@/lib/dbActions';
 
 type FindCourtCardProps = {
   court: Court;
@@ -15,8 +16,9 @@ const FindCourtsCard = ({ court }: FindCourtCardProps) => {
   const [loading, setLoading] = useState(false);
   const capacity = court.capacity;
   const occupancy = `${court.present} / ${capacity}`;
-
+  
   const handleAdd = async () => {
+    /*
     setLoading(true);
     try {
       const res = await fetch(`/api/courts/${court.id}/save`, {
@@ -34,9 +36,11 @@ const FindCourtsCard = ({ court }: FindCourtCardProps) => {
       alert('Failed to add court');
     } finally {
       setLoading(false);
-    }
+    }*/
+    await saveCourts(court.id);
   };
-
+  
+  
   return (
     <Card className="h-100 border-0 shadow-sm" style={{ minHeight: 240 }}>
       <div className="d-flex flex-row flex-wrap h-100">

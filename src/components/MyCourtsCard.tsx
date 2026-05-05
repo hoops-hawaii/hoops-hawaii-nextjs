@@ -4,6 +4,8 @@
 import { Court } from '@prisma/client';
 import { Card, Button } from 'react-bootstrap';
 import { useState } from "react";
+import { redirect } from 'next/dist/server/api-utils';
+import { refresh } from 'next/cache';
 
 
 type CourtItemProps = {
@@ -65,6 +67,7 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
         return;
       }
       onRemove?.(court.id);
+      refresh()
     } catch (err) {
       console.error(err);
       alert('Failed to remove court');
@@ -93,8 +96,10 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
         </>
       )}
       {flipped && (
-        <div className="text-success h-100 border-0 overflow-hidden position-relative" style={{ backgroundImage: `url(${court.imageURL ?? "/warrior-rec.png"})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-          <div className="position-absolute top-0 w-100 p-3 bg-dark bg-opacity-75 text-white">
+        <>
+        <Card.Img src={court.imageURL ?? "/warrior-rec.png"} alt={court.name} className="h-100 w-100" style={{ objectFit: "cover"}} />
+          <div className="position-absolute top-0 w-100 p-3 bg-dark bg-opacity-50">
+            <div className="top-0 w-100 p-3 bg-dark bg-opacity-75 text-white">
             <h5 className="fw-bold">{court.name}</h5>
             <hr />
             <p><strong>Address:</strong> {court.address}</p>
@@ -103,7 +108,10 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
             <p><strong>Capacity:</strong> {capacity}</p>
             <p><strong>Current:</strong> {present}</p>
           </div>
-          <div className="position-absolute bottom-0 w-100 p-3">
+          
+          </div>
+          <div className="position-absolute bottom-0 w-100 p-3 bg-dark bg-opacity-50">
+            <div className="position-absolute bottom-0 w-100 p-3">
             <div className="d-flex gap-2">
               <Button variant="secondary" onClick={() => setFlipped(false)}>
                 Back
@@ -113,7 +121,8 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
               </Button>
             </div>
           </div>
-        </div>
+          </div>
+        </>
       )}
     </Card>
   );

@@ -211,7 +211,35 @@ export async function createUser(credentials: { username: string; password: stri
   });
 }
 
+export async function saveCourts (courtId: number){
+  const session = await auth();
 
+  if (!session?.user?.username) {
+    throw new Error('Not authenticated');
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { username: session.user.username },
+    select: { homeCourtId: true },
+  });
+
+  // Prevent joining if already in a team
+  if (user?.homeCourtId) {
+    throw new Error('You are already in a team');
+  }
+
+
+await prisma.user.update({
+  where: { username: session.user.username },
+  data: {
+    savedCourts: {
+      connect: { id: courtId }, // or court.id
+    },
+  },
+});
+
+refresh();
+}
 
 /**
  * Changes the password of an existing user in the database.
