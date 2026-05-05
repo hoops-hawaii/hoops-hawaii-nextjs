@@ -1,10 +1,9 @@
 'use server';
 
-import { Condition, Court } from '@prisma/client';
+import { Condition, Court, User } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from './prisma';
-import { User } from '@prisma/client';
 import { refresh } from 'next/cache';
 import { auth } from '@/lib/auth';
 /**
@@ -18,7 +17,7 @@ import { auth } from '@/lib/auth';
   trash
 }
  */
-export async function addCourt(court: { name: string; address: string; environment: string; capacity: number; present: number; condition:string}) {
+export async function addCourt(court: {imageURL: string | null; name: string; address: string; environment: string; capacity: number; condition:string}) {
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
   let condition: Condition = 'good';
   if (court.condition === 'trash') {
@@ -27,16 +26,17 @@ export async function addCourt(court: { name: string; address: string; environme
     condition = 'bad';
   } else if (court.condition === 'mid') {
     condition = 'mid';
-  } else {
+  } else  if (court.condition === 'very_good') {
     condition = 'very_good';
   }
   await prisma.court.create({
     data: {
       name: court.name,
+      imageURL: court.imageURL,
       address:court.address,
+      present: 0,
       environment: court.environment,
       capacity: court.capacity,
-      present: court.present,
       condition,
     },
   });

@@ -18,10 +18,10 @@ export const EditStuffSchema = Yup.object({
 
 export const AddCourtSchema = Yup.object({
   name: Yup.string().required(),
+  imageURL: Yup.string().url().required(),
   address: Yup.string().required(),
   environment: Yup.string().required(),
   capacity: Yup.number().positive().required(),
-  present: Yup.number().positive().required(),
   condition: Yup.string().oneOf(['very_good', 'good', 'mid', 'bad','trash']).required(),
 })
 
