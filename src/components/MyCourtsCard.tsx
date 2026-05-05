@@ -22,6 +22,7 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
     try {
       const res = await fetch(`/api/courts/${court.id}/increment`, {
         method: "POST",
+        credentials: 'include',
       });
       if (!res.ok) {
         const error = await res.json();
@@ -39,6 +40,7 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
     try {
       const res = await fetch(`/api/courts/${court.id}/checkout`, {
         method: "POST",
+        credentials: 'include',
       });
       if (!res.ok) {
         const error = await res.json();
@@ -56,6 +58,7 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
     try {
       const res = await fetch(`/api/courts/${court.id}/unsave`, {
         method: "POST",
+        credentials: 'include',
       });
       if (!res.ok) {
         alert('Failed to remove court');
