@@ -98,7 +98,8 @@ export async function CreateTeam({ name, description }: { name: string; descript
   });
 
   if (existing) {
-    throw new Error("User already owns a team");
+    alert("User already owns a team");
+    return
   }
 
   await prisma.team.create({
@@ -225,7 +226,8 @@ export async function saveCourts (courtId: number){
 
   // Prevent joining if already in a team
   if (user?.homeCourtId) {
-    throw new Error('You are already in a team');
+    alert('You are already added this court');
+    return
   }
 
 
