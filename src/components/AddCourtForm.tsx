@@ -38,7 +38,7 @@ const AddCourt = () => {
     try {
       await addCourt(data);
       await swal('Court Added', 'The court has been added', 'success');
-      router.push(`/list`);
+      router.push(`/find-courts`);
       router.refresh();
     } catch (error) {
       swal('Error', 'Something went wrong adding the court', `${error}`);
