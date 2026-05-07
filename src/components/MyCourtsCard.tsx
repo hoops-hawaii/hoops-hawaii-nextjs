@@ -75,7 +75,9 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
     }
   };
   return (
-    <Card className="text-success h-100 border-0 overflow-hidden position-relative">
+    <Card className="text-success border-0 overflow-hidden position-relative" style={{
+    height: '425px',
+  }}>
       {!flipped && (
         <>
           <Card.Img src={court.imageURL ?? "/warrior-rec.png"} alt={court.name} className="h-100 w-100" style={{ objectFit: "cover"}} />
