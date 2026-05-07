@@ -17,26 +17,26 @@ import { auth } from '@/lib/auth';
   trash
 }
  */
-export async function addCourt(court: {imageURL: string; name: string; address: string; environment: string; capacity: number; condition:string}) {
+export async function addCourt(data: {imageURL: string; name: string; address: string; environment: string; capacity: number; condition:string}) {
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
   let condition: Condition = 'good';
-  if (court.condition === 'trash') {
+  if (data.condition === 'trash') {
     condition = 'trash';
-  } else if (court.condition === 'bad') {
+  } else if (data.condition === 'bad') {
     condition = 'bad';
-  } else if (court.condition === 'mid') {
+  } else if (data.condition === 'mid') {
     condition = 'mid';
-  } else  if (court.condition === 'very_good') {
+  } else  if (data.condition === 'very_good') {
     condition = 'very_good';
   }
   await prisma.court.create({
     data: {
-      name: court.name,
-      imageURL: court.imageURL,
-      address:court.address,
+      name: data.name,
+      imageURL: data.imageURL,
+      address:data.address,
       present: 0,
-      environment: court.environment,
-      capacity: court.capacity,
+      environment: data.environment,
+      capacity: data.capacity,
       condition,
     },
   });
