@@ -1,22 +1,31 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Form, InputGroup, Row, Col } from 'react-bootstrap';
-import { useState } from 'react';
 
-const CourtSearch = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [search, setSearch] = useState(searchParams.get('search') || '');
-  const [environment, setEnvironment] = useState(searchParams.get('environment') || '');
-  const [condition, setCondition] = useState(searchParams.get('condition') || '');
+import { useState, useEffect } from 'react';
+import { Row, Col, Form, InputGroup } from 'react-bootstrap';
+import type { Court } from '@prisma/client';
 
-  const updateParams = (newSearch: string, newEnv: string, newCondition: string) => {
-    const params = new URLSearchParams();
-    if (newSearch) params.set('search', newSearch);
-    if (newEnv) params.set('environment', newEnv);
-    if (newCondition) params.set('condition', newCondition);
-    router.push(`/find-courts?${params.toString()}`);
-  };
+type CourtSearchProps = {
+  courts: Court[];
+  onFiltered?: (results: Court[]) => void;
+};
+
+const CourtSearch = ({ courts, onFiltered }: CourtSearchProps) => {
+  const [search, setSearch] = useState('');
+  const [environment, setEnvironment ] = useState('');
+  const [condition, setCondition] = useState('');
+
+  useEffect(() => {
+    if (!Array.isArray(courts)) return;
+    const filtered = courts.filter((court) => {
+      const matchesName = court.name.toLowerCase().includes(search.toLowerCase());
+      const matchesEnvironment = environment ? court.environment === environment : true;
+      const matchesCondition = condition ? court.condition === condition : true;
+      return matchesName && matchesEnvironment && matchesCondition;
+    });
+    onFiltered?.(filtered);
+  }, [courts, search, environment, condition, onFiltered]);
+
+
 
   return (
     <Row className="mb-3 g-2" style={{ maxWidth: '800px' }}>
@@ -26,20 +35,14 @@ const CourtSearch = () => {
           <Form.Control
             placeholder="Search courts by name..."
             value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              updateParams(e.target.value, environment, condition);
-            }}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </InputGroup>
       </Col>
       <Col md={3}>
         <Form.Select
           value={environment}
-          onChange={(e) => {
-            setEnvironment(e.target.value);
-            updateParams(search, e.target.value, condition);
-          }}
+          onChange={(e) => setEnvironment(e.target.value)}
         >
           <option value="">All Environments</option>
           <option value="indoor">Indoor</option>
@@ -49,10 +52,7 @@ const CourtSearch = () => {
       <Col md={3}>
         <Form.Select
           value={condition}
-          onChange={(e) => {
-            setCondition(e.target.value);
-            updateParams(search, environment, e.target.value);
-          }}
+          onChange={(e) => setCondition(e.target.value)}
         >
           <option value="">All Conditions</option>
           <option value="very_good">Very Good</option>

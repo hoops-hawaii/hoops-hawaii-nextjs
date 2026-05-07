@@ -4,7 +4,6 @@
 import { Court } from '@prisma/client';
 import { Card, Button } from 'react-bootstrap';
 import { useState } from "react";
-import { refresh } from 'next/cache';
 import { useRouter } from 'next/navigation';
 
 
@@ -16,6 +15,7 @@ type CourtItemProps = {
 
 /* Renders a single row in the List Stuff table. See list/page.tsx. */
 const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
+  const formatLabel = (value: string) => value.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
   const [ flipped, setFlipped ] = useState(false);
   const [ present, setPresent ] = useState(court.present);
   const capacity = court.capacity;
@@ -106,8 +106,8 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
             <h5 className="fw-bold">{court.name}</h5>
             <hr />
             <p><strong>Address:</strong> {court.address}</p>
-            <p><strong>Condition:</strong> {court.condition}</p>
-            <p><strong>Environment:</strong> {court.environment}</p>
+            <p><strong>Condition:</strong> {formatLabel(court.condition)}</p>
+            <p><strong>Environment:</strong> {formatLabel(court.environment)}</p>
             <p><strong>Capacity:</strong> {capacity}</p>
             <p><strong>Current:</strong> {present}</p>
           </div>
