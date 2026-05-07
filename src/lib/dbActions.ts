@@ -2,7 +2,6 @@
 
 import { Condition, Court, User } from '@prisma/client';
 import { hash } from 'bcrypt';
-import { redirect } from 'next/navigation';
 import { prisma } from './prisma';
 import { refresh } from 'next/cache';
 import { auth } from '@/lib/auth';
@@ -59,8 +58,6 @@ export async function editCourt(court: Court) {
       condition: court.condition,
     },
   });
-  // After updating, redirect to the list page
-  redirect('/list');
 }
 
 /**
@@ -72,8 +69,6 @@ export async function deleteCourt(id: number) {
   await prisma.court.delete({
     where: { id },
   });
-  // After deleting, redirect to the list page
-  redirect('/list');
 }
 
 export async function CreateTeam({ name, description }: { name: string; description: string }) {
@@ -107,8 +102,6 @@ export async function CreateTeam({ name, description }: { name: string; descript
       users: { connect: { id: user.id } },
     },
   });
-
-  redirect('/team/view');
 }
 
 export async function joinTeam(teamId: number) {
@@ -134,7 +127,6 @@ export async function joinTeam(teamId: number) {
       teamId: teamId,
     },
   });
-  redirect('/team/view');
 }
 
 export async function disbandTeam() {
@@ -166,7 +158,6 @@ export async function disbandTeam() {
   await prisma.team.delete({
     where: { id: team.id },
   });
-  redirect('/team/view');
 }
 
 export async function leaveTeam() {
