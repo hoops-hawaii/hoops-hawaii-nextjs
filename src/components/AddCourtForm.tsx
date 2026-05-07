@@ -19,7 +19,7 @@ const AddCourt = () => {
   type AddCourtForm = {
   name: string;
   address: string;
-  imageURL: string; // Optional in form
+  imageURL: string;
   environment: string;
   capacity: number;
   condition: "very_good" | "good" | "mid" | "bad" | "trash";

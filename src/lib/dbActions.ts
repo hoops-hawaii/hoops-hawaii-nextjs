@@ -17,7 +17,7 @@ import { auth } from '@/lib/auth';
   trash
 }
  */
-export async function addCourt(court: {imageURL: string | null; name: string; address: string; environment: string; capacity: number; condition:string}) {
+export async function addCourt(court: {imageURL: string; name: string; address: string; environment: string; capacity: number; condition:string}) {
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
   let condition: Condition = 'good';
   if (court.condition === 'trash') {
