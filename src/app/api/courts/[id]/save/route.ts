@@ -11,9 +11,11 @@ export const POST = auth(async (request: NextRequest, { params }: { params: Prom
     const username = session?.user?.username;
     const { id } = await params;
     const courtId = parseInt(id, 10);
+
     if (Number.isNaN(userId) && !username) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
     if (isNaN(courtId)) {
       return NextResponse.json({ error: 'Invalid court ID' }, { status: 400 });
     }
@@ -22,13 +24,13 @@ export const POST = auth(async (request: NextRequest, { params }: { params: Prom
       ? null
       : await prisma.user.findUnique({
           where: { id: userId },
-          select: { id: true, presentAtId: true },
+          include: { savedCourts: true },
         });
 
     if (!user && username) {
       user = await prisma.user.findUnique({
         where: { username },
-        select: { id: true, presentAtId: true },
+        include: { savedCourts: true },
       });
     }
 
@@ -36,34 +38,30 @@ export const POST = auth(async (request: NextRequest, { params }: { params: Prom
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    if (user.presentAtId !== courtId) {
-      return NextResponse.json({ error: 'Not checked in to this court' }, { status: 400 });
-    }
-
     const court = await prisma.court.findUnique({
       where: { id: courtId },
-      select: { present: true },
     });
 
     if (!court) {
       return NextResponse.json({ error: 'Court not found' }, { status: 404 });
     }
 
-    // Update user and court in a transaction
-    await prisma.$transaction([
-      prisma.user.update({
-        where: { id: user.id },
-        data: { presentAtId: null },
-      }),
-      prisma.court.update({
-        where: { id: courtId },
-        data: { present: Math.max(0, court.present - 1) },
-      }),
-    ]);
+    if (user.savedCourts.some((savedCourt) => savedCourt.id === courtId)) {
+      return NextResponse.json({ saved: true, message: 'Court already added' });
+    }
 
-    return NextResponse.json({ present: Math.max(0, court.present - 1) });
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        savedCourts: {
+          connect: { id: courtId },
+        },
+      },
+    });
+
+    return NextResponse.json({ saved: true });
   } catch (error) {
-    console.error('Error checking out:', error);
+    console.error('Error saving court:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 });

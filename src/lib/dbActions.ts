@@ -7,6 +7,7 @@ import { prisma } from './prisma';
 import { User } from '@prisma/client';
 import { refresh } from 'next/cache';
 import { auth } from '@/lib/auth';
+import { revalidatePath } from 'next/cache';
 /**
  * Adds a new stuff to the database.
  * @param stuff, an object with the following properties: name, quantity, owner, condition.
@@ -98,7 +99,8 @@ export async function CreateTeam({ name, description }: { name: string; descript
   });
 
   if (existing) {
-    throw new Error("User already owns a team");
+    alert("User already owns a team");
+    return
   }
 
   await prisma.team.create({
@@ -211,7 +213,36 @@ export async function createUser(credentials: { username: string; password: stri
   });
 }
 
+export async function saveCourts (courtId: number){
+  const session = await auth();
 
+  if (!session?.user?.username) {
+    throw new Error('Not authenticated');
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { username: session.user.username },
+    include: { savedCourts: true},
+  });
+
+  // Prevent joining if already in a team
+  if (user?.homeCourtId) {
+    alert('You are already added this court');
+    return
+  }
+
+
+await prisma.user.update({
+  where: { username: session.user.username },
+  data: {
+    savedCourts: {
+      connect: { id: courtId }, // or court.id
+    },
+  },
+});
+
+revalidatePath("/find-courts");
+}
 
 /**
  * Changes the password of an existing user in the database.

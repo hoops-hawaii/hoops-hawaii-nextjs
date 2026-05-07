@@ -8,7 +8,7 @@ const TeamCard = ({ team, hasTeam }: { team: Team; hasTeam: boolean }) => {
   const handleJoin = async () => {
     await joinTeam(team.id);
   };
-
+  
   return (
     <Card className="mb-3">
       <Card.Body>

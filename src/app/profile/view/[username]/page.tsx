@@ -15,28 +15,56 @@ export default async function ViewProfile({ params }: { params: { username: stri
       user: { username: string; id: string; };
     } | null,
   );
-  const ownerName = (session!.user.username);
-  const owner = await prisma.user.findUnique({
-    where: {
-      username: ownerName,
-    },
-  });
+  const ownerId = session?.user?.id ? Number(session.user.id) : NaN;
+  const ownerUsername = session?.user?.username;
+
+  let owner = Number.isNaN(ownerId)
+    ? null
+    : await prisma.user.findUnique({
+        where: {
+          id: ownerId,
+        },
+      });
+
+  if (!owner && ownerUsername) {
+    owner = await prisma.user.findUnique({
+      where: {
+        username: ownerUsername,
+      },
+    });
+  }
+
   const user = await prisma.user.findUnique({
     where: {
       username: username,
     },
   });
+
+  if (!user) {
+    return <h1 className='text-white'>User not found</h1>;
+  }
+
   const flist = await prisma.user.findMany({
     where: {
       username: {
-        in: user?.friends,
+        in: user.friends || [],
       },
     },
   });
 
-  if(!user) {
-    return <h1 className='text-white'>User not found</h1>;
-  }
+  const ownerUser = owner ?? {
+    id: ownerId || 0,
+    username: ownerUsername || 'Unknown',
+    pfp: null,
+    password: '',
+    role: 'USER',
+    skill: 'mid',
+    bio: '',
+    homeCourtId: null,
+    teamId: null,
+    friends: [],
+    presentAtId: null,
+  };
 
   return (
     <main>
@@ -74,7 +102,7 @@ export default async function ViewProfile({ params }: { params: { username: stri
               </thead>
               <tbody>
                 {flist.map((u) => (
-                    <ProfileTableCard key={u.id} user={u} owner={owner!} />
+                    <ProfileTableCard key={u.id} user={u} owner={ownerUser} />
                 ))}
               </tbody>
             </Table>

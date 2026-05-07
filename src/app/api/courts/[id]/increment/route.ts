@@ -2,26 +2,35 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
-type AuthRequest = NextRequest & { auth?: { user?: { id?: string } } };
+type AuthRequest = NextRequest & { auth?: { user?: { id?: string; username?: string } } };
 
 export const POST = auth(async (request: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
   try {
     const session = (request as AuthRequest).auth;
-    if (!session?.user?.id) {
+    const userId = session?.user?.id ? Number(session.user.id) : NaN;
+    const username = session?.user?.username;
+    const { id } = await params;
+    const courtId = parseInt(id, 10);
+    if (Number.isNaN(userId) && !username) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
-    const userId = parseInt(session.user.id);
-    const { id } = await params;
-    const courtId = parseInt(id);
     if (isNaN(courtId)) {
       return NextResponse.json({ error: 'Invalid court ID' }, { status: 400 });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { presentAtId: true },
-    });
+    let user = Number.isNaN(userId)
+      ? null
+      : await prisma.user.findUnique({
+          where: { id: userId },
+          select: { id: true, presentAtId: true },
+        });
+
+    if (!user && username) {
+      user = await prisma.user.findUnique({
+        where: { username },
+        select: { id: true, presentAtId: true },
+      });
+    }
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
@@ -51,7 +60,7 @@ export const POST = auth(async (request: NextRequest, { params }: { params: Prom
     // Update user and court in a transaction
     await prisma.$transaction([
       prisma.user.update({
-        where: { id: userId },
+        where: { id: user.id },
         data: { presentAtId: courtId },
       }),
       prisma.court.update({

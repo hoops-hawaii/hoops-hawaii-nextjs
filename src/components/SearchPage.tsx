@@ -1,7 +1,7 @@
 'use client';
 import { User } from '@prisma/client';
 import React, { useState, useMemo } from 'react';
-import { Table, Form, InputGroup, Container } from 'react-bootstrap';
+import { Table, Form, InputGroup } from 'react-bootstrap';
 import ProfileTableCard from './ProfileTableCard';
 
 const SearchPage = ({ allUsers, owner }: { allUsers: User[]; owner: User }) => {
@@ -15,10 +15,9 @@ const SearchPage = ({ allUsers, owner }: { allUsers: User[]; owner: User }) => {
   }, [searchTerm, allUsers]);
 
   return (
-    <Container className="mt-4">
-      {/* 1. The Search Bar */}
+    <div className="mt-4">
       <InputGroup className="mb-3">
-        <InputGroup.Text id="search-icon"></InputGroup.Text>
+        <InputGroup.Text>🔍</InputGroup.Text>
         <Form.Control
           placeholder="Search usernames..."
           aria-label="Search"
@@ -27,7 +26,6 @@ const SearchPage = ({ allUsers, owner }: { allUsers: User[]; owner: User }) => {
         />
       </InputGroup>
 
-      {/* 2. The Table */}
       <Table responsive hover className="align-middle">
         <thead>
           <tr>
@@ -45,14 +43,14 @@ const SearchPage = ({ allUsers, owner }: { allUsers: User[]; owner: User }) => {
             ))
           ) : (
             <tr>
-              <td colSpan={3} className="text-center text-muted py-4">
+              <td colSpan={5} className="text-center text-muted py-4">
                 No users found matching
               </td>
             </tr>
           )}
         </tbody>
       </Table>
-    </Container>
+    </div>
   );
 };
 
