@@ -36,10 +36,21 @@ const AddCourt = () => {
     resolver: yupResolver(AddCourtSchema),
   });
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const onSubmit = async (data: AddCourtForm) => {
+  const onSubmit = async (data: {
+  name: string;
+  address: string;
+  imageURL: string;
+  environment: string;
+  capacity: number;
+  condition: "very_good" | "good" | "mid" | "bad" | "trash";
+  }) => {
     setIsRedirecting(true);
     try {
-      await addCourt(data);
+      const courtToSave = {
+      ...data,
+      imageURL: 'court1.jpg', // Manually add the missing required key
+    };
+      await addCourt(courtToSave);
       await swal('Court Added', 'The court has been added', 'success');
       router.push(`/list`);
       router.refresh();
