@@ -32,7 +32,7 @@ const SearchPage = ({ allUsers, owner }: { allUsers: User[]; owner: User }) => {
             <th>Pfp</th>
             <th>Name</th>
             <th>Skill</th>
-            <th>Home Court</th>
+            <th>Bio</th>
             <th>Edit</th>
           </tr>
         </thead>

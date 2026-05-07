@@ -54,7 +54,6 @@ const HoopersPage = async () => {
   return (
     <main>
       <Container id="list" fluid className="py-3">
-        <h1>All Hoopers</h1>
         <SearchPage allUsers={users} owner={ownerUser} />
       </Container>
     </main>
