@@ -16,9 +16,9 @@ const FindCourtsCard = ({ court }: FindCourtCardProps) => {
   const [loading, setLoading] = useState(false);
   const capacity = court.capacity;
   const occupancy = `${court.present} / ${capacity}`;
-  
+
   const handleAdd = async () => {
-    /*
+
     setLoading(true);
     try {
       const res = await fetch(`/api/courts/${court.id}/save`, {
@@ -36,36 +36,61 @@ const FindCourtsCard = ({ court }: FindCourtCardProps) => {
       alert('Failed to add court');
     } finally {
       setLoading(false);
-    }*/
+    }
     await saveCourts(court.id);
   };
-  
-  
+
+
   return (
-    <Card className="h-100 border-0 shadow-sm" style={{ minHeight: 240 }}>
-      <div className="d-flex flex-row flex-wrap h-100">
-        <div className="flex-shrink-0 position-relative" style={{ minWidth: 220, width: '40%', minHeight: 240, overflow: 'hidden' }}>
+    <Card className="border-0 shadow-sm overflow-hidden h-100">
+      <div className="d-flex flex-column flex-md-row h-100">
+
+        {/* Image */}
+        <div
+          className="position-relative"
+          style={{
+            flex: "0 0 40%",
+            minHeight: 220,
+          }}
+        >
           <Card.Img
-            src={court.imageURL ?? '/warrior-rec.png'}
+            src={court.imageURL ?? "/warrior-rec.png"}
             alt={court.name}
             className="h-100 w-100"
-            style={{ objectFit: 'cover', objectPosition: 'center' }}
+            style={{ objectFit: "cover" }}
           />
         </div>
 
-        <Card.Body className="d-flex flex-column justify-content-between p-3" style={{ minWidth: 260 }}>
+        {/* Content */}
+        <Card.Body className="d-flex flex-column justify-content-between p-3 p-md-4">
           <div>
-            <Card.Title className="mb-2">{court.name}</Card.Title>
-            <Card.Text className="mb-3 text-muted">{court.address}</Card.Text>
-            <div className="mb-3">
-              <p className="mb-1"><strong>Condition:</strong> {formatLabel(court.condition)}</p>
-              <p className="mb-1"><strong>Environment:</strong> {formatLabel(court.environment)}</p>
-              <p className="mb-0"><strong>Occupancy:</strong> {occupancy}</p>
+            <Card.Title className="mb-1 fw-semibold">
+              {court.name}
+            </Card.Title>
+
+            <Card.Text className="text-muted mb-3">
+              {court.address}
+            </Card.Text>
+
+            <div className="small text-muted">
+              <div className="mb-1">
+                <strong className="text-dark">Condition:</strong>{" "}
+                {formatLabel(court.condition)}
+              </div>
+
+              <div className="mb-1">
+                <strong className="text-dark">Environment:</strong>{" "}
+                {formatLabel(court.environment)}
+              </div>
+
+              <div>
+                <strong className="text-dark">Occupancy:</strong>{" "}
+                {occupancy}
+              </div>
             </div>
           </div>
-
           <div className="d-flex justify-content-end">
-            <Button onClick={handleAdd} disabled={added || loading}>
+            <Button variant="success" onClick={handleAdd} disabled={added || loading}>
               {added ? 'Added' : 'Add Court'}
             </Button>
           </div>

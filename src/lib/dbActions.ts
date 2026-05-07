@@ -7,6 +7,7 @@ import { prisma } from './prisma';
 import { User } from '@prisma/client';
 import { refresh } from 'next/cache';
 import { auth } from '@/lib/auth';
+import { revalidatePath } from 'next/cache';
 /**
  * Adds a new stuff to the database.
  * @param stuff, an object with the following properties: name, quantity, owner, condition.
@@ -221,7 +222,7 @@ export async function saveCourts (courtId: number){
 
   const user = await prisma.user.findUnique({
     where: { username: session.user.username },
-    select: { homeCourtId: true },
+    include: { savedCourts: true},
   });
 
   // Prevent joining if already in a team
@@ -240,7 +241,7 @@ await prisma.user.update({
   },
 });
 
-refresh();
+revalidatePath("/find-courts");
 }
 
 /**

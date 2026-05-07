@@ -38,9 +38,10 @@ const FindCourtsPage = async ({ searchParams }: { searchParams: { search?: strin
     } | null,
   );
 
-  const search = searchParams.search || '';
-  const environment = searchParams.environment || '';
-  const condition = searchParams.condition || '';
+  const params = await searchParams;
+  const search = params.search || '';
+  const environment = params.environment || '';
+  const condition = params.condition || '';
 
   await ensureDefaultCourts();
 
@@ -57,7 +58,6 @@ const FindCourtsPage = async ({ searchParams }: { searchParams: { search?: strin
       <Container fluid className="py-3">
         <Row>
           <Col>
-            <h1>Find Courts</h1>
             <CourtSearch />
             <Row className="g-4 mt-3">
               {courts.map((court: Court) => (

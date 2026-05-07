@@ -4,8 +4,8 @@
 import { Court } from '@prisma/client';
 import { Card, Button } from 'react-bootstrap';
 import { useState } from "react";
-import { redirect } from 'next/dist/server/api-utils';
 import { refresh } from 'next/cache';
+import { useRouter } from 'next/navigation';
 
 
 type CourtItemProps = {
@@ -19,6 +19,7 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
   const [ flipped, setFlipped ] = useState(false);
   const [ present, setPresent ] = useState(court.present);
   const capacity = court.capacity;
+  const router = useRouter();
   const occupancy = `${present} / ${capacity}`;
   const handleIncrement = async () => {
     try {
@@ -67,7 +68,7 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
         return;
       }
       onRemove?.(court.id);
-      refresh()
+      router.refresh();
     } catch (err) {
       console.error(err);
       alert('Failed to remove court');
