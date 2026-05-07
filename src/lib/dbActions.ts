@@ -40,8 +40,6 @@ export async function addCourt(court: {imageURL: string; name: string; address: 
       condition,
     },
   });
-  // After adding, redirect to the list page
-  redirect('/list');
 }
 
 /**

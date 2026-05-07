@@ -10,7 +10,6 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import { AddCourtSchema } from '@/lib/validationSchemas';
 import { useRouter } from 'next/navigation'; // Changed from redirect
 import Link from 'next/link';
-import { useState } from 'react';
 
 const AddCourt = () => {
   const router = useRouter();
@@ -35,32 +34,19 @@ const AddCourt = () => {
     },
     resolver: yupResolver(AddCourtSchema),
   });
-  const [isRedirecting, setIsRedirecting] = useState(false);
-  const onSubmit = async (data: {
-  name: string;
-  address: string;
-  imageURL: string;
-  environment: string;
-  capacity: number;
-  condition: "very_good" | "good" | "mid" | "bad" | "trash";
-  }) => {
-    setIsRedirecting(true);
+  const onSubmit = async (data: AddCourtForm) => {
     try {
-      const courtToSave = {
-      ...data,
-      imageURL: 'court1.jpg', // Manually add the missing required key
-    };
-      await addCourt(courtToSave);
+      await addCourt(data);
       await swal('Court Added', 'The court has been added', 'success');
       router.push(`/list`);
       router.refresh();
     } catch (error) {
-      setIsRedirecting(false);
       swal('Error', 'Something went wrong adding the court', `${error}`);
+      console.log('Error adding court:', error);
     }
   };
 
-  if (status === 'loading' || isRedirecting) return <LoadingSpinner />;
+  if (status === 'loading') return <LoadingSpinner />;
 
   return (
     <main>

@@ -18,7 +18,7 @@ export const EditStuffSchema = Yup.object({
 
 export const AddCourtSchema = Yup.object({
   name: Yup.string().required(),
-  imageURL: Yup.string().url().required(),
+  imageURL: Yup.string().required(),
   address: Yup.string().required(),
   environment: Yup.string().required(),
   capacity: Yup.number().positive().required(),
