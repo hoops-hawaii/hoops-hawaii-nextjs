@@ -31,7 +31,7 @@ const AddCourt = () => {
     formState: { errors, isSubmitting },
   } = useForm<AddCourtForm>({
     defaultValues: {
-      imageURL: '',
+      imageURL: 'court1.jpg',
     },
     resolver: yupResolver(AddCourtSchema),
   });
