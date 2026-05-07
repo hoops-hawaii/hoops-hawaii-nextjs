@@ -39,7 +39,7 @@ const NavBar: React.FC = () => {
               </>
             )}
             {currentUser && role === 'ADMIN' && (
-              <Nav.Link id="admin-stuff-nav" href="/admin" active={pathName === '/admin'}>
+              <Nav.Link id="admin-stuff-nav" href="/admin-add" active={pathName === '/admin-add'}>
                 Add Court
               </Nav.Link>
             )}
