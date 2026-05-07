@@ -18,7 +18,7 @@ const FindCourtsCard = ({ court }: FindCourtCardProps) => {
   const occupancy = `${court.present} / ${capacity}`;
 
   const handleAdd = async () => {
-
+    /*
     setLoading(true);
     try {
       const res = await fetch(`/api/courts/${court.id}/save`, {
@@ -37,6 +37,7 @@ const FindCourtsCard = ({ court }: FindCourtCardProps) => {
     } finally {
       setLoading(false);
     }
+      */
     await saveCourts(court.id);
   };
 
