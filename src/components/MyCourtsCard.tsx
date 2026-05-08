@@ -102,9 +102,11 @@ const MyCourtCard = ({ court, onRemove, homeCourtId }: CourtItemProps) => {
       height: '425px',
     }}>
       {isHome && (
+        <>
         <span className="badge bg-success text-dark position-absolute top-0 start-0 m-2">
           Home Court
         </span>
+        </>
       )}
       {!flipped && (
         <>
@@ -155,7 +157,7 @@ const MyCourtCard = ({ court, onRemove, homeCourtId }: CourtItemProps) => {
                     Set Home Court
                   </Button>
                 ) : (
-                  <Button variant="outline-warning" onClick={handleRemoveHome}>
+                  <Button variant="warning" onClick={handleRemoveHome}>
                     Remove Home Court
                   </Button>
                 )}
