@@ -4,6 +4,7 @@ import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import Link from "next/link";
 
 /** Render a list of stuff for the logged in user. */
 export default async function ViewProfile({ params }: { params: { username: string } }) {
@@ -111,15 +112,17 @@ export default async function ViewProfile({ params }: { params: { username: stri
                     placement="top"
                     overlay={<Tooltip>{u.username}</Tooltip>}
                   >
-                    <Image
-                      src={u.pfp || "/default-pfp.png"}
-                      width={45}
-                      height={45}
-                      alt={u.username}
-                      roundedCircle
-                      className="border shadow-sm"
-                      style={{ objectFit: "cover", cursor: "pointer" }}
-                    />
+                    <Link href={`/profile/${u.username}`}>
+                      <Image
+                        src={u.pfp || "/default-pfp.png"}
+                        width={45}
+                        height={45}
+                        alt={u.username}
+                        roundedCircle
+                        className="border shadow-sm"
+                        style={{ objectFit: "cover", cursor: "pointer" }}
+                      />
+                    </Link>
                   </OverlayTrigger>
                 ))}
               </div>

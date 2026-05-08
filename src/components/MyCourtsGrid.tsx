@@ -4,7 +4,6 @@ import { useState } from 'react';
 import type { Court } from '@prisma/client';
 import { Row, Col } from 'react-bootstrap';
 import MyCourtsCard from '@/components/MyCourtsCard';
-import { prisma } from '@/lib/prisma';
 
 type MyCourtsGridProps = {
   initialCourts: Court[];
