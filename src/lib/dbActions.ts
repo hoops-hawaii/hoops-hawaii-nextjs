@@ -215,8 +215,12 @@ export async function saveCourts (courtId: number){
   });
 
   // Prevent joining if already in a team
-  if (user?.homeCourtId) {
-    alert('You are already added this court');
+  const alreadySaved = user?.savedCourts.some(
+    (court) => court.id === courtId
+  );
+
+  if (alreadySaved) {
+    alert('You already saved this court');
     return
   }
 
