@@ -4,6 +4,7 @@ import { useState } from 'react';
 import type { Court } from '@prisma/client';
 import { Button, Card } from 'react-bootstrap';
 import { saveCourts } from '@/lib/dbActions';
+import { set } from 'react-hook-form';
 
 type FindCourtCardProps = {
   court: Court;
@@ -19,6 +20,7 @@ const FindCourtsCard = ({ court }: FindCourtCardProps) => {
 
   const handleAdd = async () => {
     await saveCourts(court.id);
+    setAdded(true);
   };
 
 
