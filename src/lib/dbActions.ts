@@ -295,11 +295,9 @@ export async function removeFriend(username: string, friendUsername: string) {
 export async function setHomeCourt(courtId: number) {
   const session = await auth();
 
-  if (!session?.user?.id) {
-    throw new Error("Not authenticated");
+  if (!session?.user?.username) {
+    throw new Error('Not authenticated');
   }
-
-  const userId = Number(session.user.id);
 
   // OPTIONAL safety: ensure court exists
   const court = await prisma.court.findUnique({
@@ -312,7 +310,7 @@ export async function setHomeCourt(courtId: number) {
 
   // Set ONLY one home court per user (overwrite old one)
   return prisma.user.update({
-    where: { id: userId },
+    where: { username: session.user.username },
     data: {
       homeCourtId: courtId,
     },

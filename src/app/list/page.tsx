@@ -20,22 +20,29 @@ const ListPage = async () => {
     ? null
     : await prisma.user.findUnique({
         where: { id: userId },
-        include: { savedCourts: true },
+        include: { 
+          savedCourts: true,
+          homeCourt: true,
+        },
       });
 
   if (!user && username) {
     user = await prisma.user.findUnique({
       where: { username },
-      include: { savedCourts: true },
+      include: { 
+        savedCourts: true, 
+        homeCourt: true,
+      },
     });
   }
 
   const courts = user?.savedCourts ?? [];
 
+  const homeCourtId = user?.homeCourtId;
   return (
     <main>
       <Container id="myCourts" fluid className="py-3">
-        <MyCourtsGrid initialCourts={courts} />
+        <MyCourtsGrid initialCourts={courts} homeCourtId={homeCourtId} />
       </Container>
     </main>
   );
