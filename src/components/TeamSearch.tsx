@@ -48,11 +48,11 @@ const TeamSearch = ({
       </Container>
 
       <Container fluid>
-        <Row>
+        <Row className="justify-content-center">
           {filteredTeams.map((team) => (
-            <Container key={team.id}>
+            <Col md={6} key={team.id}>
               <TeamCard team={team} hasTeam={hasTeam} />
-            </Container>
+            </Col>
           ))}
         </Row>
 

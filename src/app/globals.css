@@ -5,6 +5,10 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
+  background-color:#12422b
+}
+
+.landing-page {
   background: fixed center url("/landingp1.jpg");
   background-size: cover;
 }

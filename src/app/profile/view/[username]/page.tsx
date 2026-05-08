@@ -1,9 +1,9 @@
-import { Col, Container, Row, Image, Table, Button } from 'react-bootstrap';
+import { Col, Container, Row, Image, Table, Button, Card } from 'react-bootstrap';
 import { prisma } from '@/lib/prisma';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
-import ProfileTableCard from '@/components/ProfileTableCard';
-
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 /** Render a list of stuff for the logged in user. */
 export default async function ViewProfile({ params }: { params: { username: string } }) {
@@ -21,10 +21,10 @@ export default async function ViewProfile({ params }: { params: { username: stri
   let owner = Number.isNaN(ownerId)
     ? null
     : await prisma.user.findUnique({
-        where: {
-          id: ownerId,
-        },
-      });
+      where: {
+        id: ownerId,
+      },
+    });
 
   if (!owner && ownerUsername) {
     owner = await prisma.user.findUnique({
@@ -38,6 +38,9 @@ export default async function ViewProfile({ params }: { params: { username: stri
     where: {
       username: username,
     },
+    include: {
+      homeCourt: true,
+    }
   });
 
   if (!user) {
@@ -51,6 +54,8 @@ export default async function ViewProfile({ params }: { params: { username: stri
       },
     },
   });
+
+  const formatSkill = (skill: string) => skill.charAt(0).toUpperCase() + skill.slice(1);
 
   const ownerUser = owner ?? {
     id: ownerId || 0,
@@ -67,57 +72,89 @@ export default async function ViewProfile({ params }: { params: { username: stri
   };
 
   return (
-    <main>
-      <Container id="centerTextBox" fluid className="py-3 px-5 text-white">
-        <Row>
-          <Col md={6} className="d-flex align-items-start mb-4 mb-md-0">
-            <Image src={user.pfp || '/default-pfp.png'} width={150} alt='profile-image' className='mb-3'/>
-            <div className="ms-4">
-              <h1 className="display-5 fw-bold">{user.username}</h1>
-              <p className="lead">Skill level: {user.skill}</p>
-            </div>
-          </Col>
-          <Col>
-            <p>
-              {user.username}&apos;s home court: {//courtcard(user.homeCourt)}
-            }</p>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <h2>Bio:</h2>
-            <p>{user.bio}</p>
-          </Col>
-          <Col>
-            <p>Friends List: {user.friends}</p>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Pfp</th>
-                  <th>Name</th>
-                  <th>Skill</th>
-                  <th>Home Court</th>
-                  <th>Edit</th>
-                </tr>
-              </thead>
-              <tbody>
+    <main className="min-vh-100 d-flex justify-content-center align-items-center py-5">
+      <Container fluid="md">
+        <Card className="shadow-lg border-0 rounded-4 p-4">
+
+          {/* Top Section */}
+          <Row className="align-items-center mb-4">
+            <Col md={6} className="d-flex align-items-center">
+              <Image
+                src={user.pfp || '/default-pfp.png'}
+                width={140}
+                height={140}
+                alt="profile-image"
+                roundedCircle
+                className="shadow-sm"
+              />
+              <div className="ms-4">
+                <h1 className="fw-bold mb-1">{user.username}</h1>
+                <p className="text-muted mb-0">Skill Level: {formatSkill(user.skill)}</p>
+              </div>
+            </Col>
+
+            <Col md={6} className="text-md-end mt-3 mt-md-0">
+              <h6 className="fw-semibold mb-1">Home Court</h6>
+              <p className="text-muted mb-0">
+                {user.homeCourt?.name || "No home court set"}
+              </p>
+            </Col>
+          </Row>
+
+          <hr />
+
+          {/* Bio + Friends */}
+          <Row className="mb-4">
+            <Col>
+              <h5 className="mb-2">Bio</h5>
+              <p className="text-muted">{user.bio || "No bio yet."}</p>
+            </Col>
+          </Row>
+
+          <hr />
+
+          {/* Friends */}
+          <Row className="mt-3">
+            <Col>
+              <h5 className="mb-2">Friends</h5>
+
+              <div className="d-flex flex-wrap gap-2 align-items-center">
                 {flist.map((u) => (
-                    <ProfileTableCard key={u.id} user={u} owner={ownerUser} />
+                  <OverlayTrigger
+                    key={u.id}
+                    placement="top"
+                    overlay={<Tooltip>{u.username}</Tooltip>}
+                  >
+                    <Image
+                      src={u.pfp || "/default-pfp.png"}
+                      width={45}
+                      height={45}
+                      alt={u.username}
+                      roundedCircle
+                      className="border shadow-sm"
+                      style={{ objectFit: "cover", cursor: "pointer" }}
+                    />
+                  </OverlayTrigger>
                 ))}
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
-        <Row className="mt-3">
-          <Col>
+              </div>
+            </Col>
+          </Row>
+
+          {/* Actions */}
           {user.username === session?.user?.username && (
-            <>
-            <Button variant="warning" href={`/profile/edit/${user.username}`}>Edit Profile</Button>
-            <Button variant="danger" href='/auth/signout' >Sign Out</Button>
-            </>
+            <Row className="mt-4">
+              <Col className="d-flex gap-2">
+                <Button variant="warning" href={`/profile/edit/${user.username}`}>
+                  Edit Profile
+                </Button>
+                <Button variant="danger" href="/auth/signout">
+                  Sign Out
+                </Button>
+              </Col>
+            </Row>
           )}
-          </Col>
-        </Row>
+
+        </Card>
       </Container>
     </main>
   );
