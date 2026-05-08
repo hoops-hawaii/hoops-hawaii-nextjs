@@ -17,7 +17,7 @@ type SignUpForm = {
 /** The sign up page. */
 const SignUp = () => {
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required').email('Username is invalid'),
+    username: Yup.string().required('Username is required'),
     password: Yup.string()
       .required('Password is required')
       .min(6, 'Password must be at least 6 characters')
