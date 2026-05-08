@@ -13,7 +13,7 @@ import Link from 'next/link';
 
 const AddCourt = () => {
   const router = useRouter();
-  const { data: session, status, } = useSession();
+  const { data: session, status } = useSession();
 
   type AddCourtForm = {
   name: string;
@@ -47,7 +47,11 @@ const AddCourt = () => {
   };
 
   if (status === 'loading') return <LoadingSpinner />;
-
+  
+  if (session?.user.role !== 'admin') {
+    router.push('/not-authorized');
+    return null; // Prevent rendering the form while redirecting
+  }
   return (
     <main>
       <Container className="py-7">

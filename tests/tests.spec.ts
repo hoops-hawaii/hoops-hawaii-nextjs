@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './auth-utils';
 
 test.describe('Authentication Flow', () => {
   
