@@ -19,7 +19,7 @@ if (!fs.existsSync(SESSION_STORAGE_PATH)) {
 
 // Define our custom fixtures
 interface AuthFixtures {
-  getUserPage: (email: string, password: string) => Promise<Page>;
+  getUserPage: (username: string, password: string) => Promise<Page>;
 }
 /**
  * Authenticate using the UI with robust waiting and error handling
@@ -72,7 +72,7 @@ async function authenticateWithUI(
 
     // Fill in credentials with retry logic
     await fillFormWithRetry(page, [
-      { selector: 'input[name="email"]', value: username },
+      { selector: 'input[name="username"]', value: username },
       { selector: 'input[name="password"]', value: password },
     ]);
 
@@ -87,11 +87,11 @@ async function authenticateWithUI(
 
 
     // Wait for a clear post-login indicator (user button or sign out button)
-    const userButton = page.getByRole('button', { name: username });
-    const signOutButton = page.getByRole('button', { name: /sign out/i });
+    const userButton = page.getByRole('link', { name: username });
+    //const signOutButton = page.getByRole('button', { name: /sign out/i });
     await Promise.any([
       expect(userButton).toBeVisible({ timeout: 10000 }),
-      expect(signOutButton).toBeVisible({ timeout: 10000 })
+      //expect(signOutButton).toBeVisible({ timeout: 10000 })
     ]);
 
     // Save session for future tests

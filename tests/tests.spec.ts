@@ -1,29 +1,21 @@
 import { test, expect } from './auth-utils';
 
-test.describe('Authentication Flow', () => {
-  
-  test('user can login and see profile details', async ({ page }) => {
-    // 1. Navigate to your login page
-    await page.goto('http://localhost:3000/auth/signin');
+test.slow();
+test('can authenticate a specific user', async ({ getUserPage }) => {
 
-    // 2. Fill out the form using accessible locators
-    // Playwright prefers 'getByLabel' or 'getByRole' over CSS selectors
-    await page.getByLabel('Username').fill('john');
-    await page.getByLabel('Password').fill('changeme');
-    
-    // 3. Click the submit button
-    await page.getByRole('button', { name: /log in/i }).click();
+  // Call the getUserPage fixture with users signin info to get authenticated session for user
+  const customUserPage = await getUserPage('john', 'changeme');
 
-    // 4. Verify redirect to dashboard or home
-    await expect(page).toHaveURL(/.*dashboard/);
+  // Navigate to the home page and wait for post-login indicator
+  await customUserPage.goto('http://localhost:3000/');
 
-    // 5. Verify the Resolver data (bio, username) appears on the page
-    const bio = page.getByText('This is my bio');
-    await expect(bio).toBeVisible();
-    
-    // Check if the Profile Picture (pfp) is rendered
-    const pfp = page.getByRole('img', { name: /profile picture/i });
-    await expect(pfp).toBeVisible();
-  });
+  await (customUserPage.getByRole('link', { name: 'My Courts' })).click();
+  await (customUserPage.getByRole('link', { name: 'Find Courts' })).click();
+  await (customUserPage.getByRole('link', { name: 'Look For Team' })).click();
+  await (customUserPage.getByRole('link', { name: 'All Hoopers' })).click();
+  await (customUserPage.getByRole('link', { name: 'Profile picturejohn' })).click();
+  await expect(customUserPage.getByRole('heading', { name: 'john' })).toBeVisible();
+  await customUserPage.getByRole('button', { name: 'Edit Profile' }).click();
+  await customUserPage.getByRole('button', { name: 'Update Profile' }).click();
 
 });

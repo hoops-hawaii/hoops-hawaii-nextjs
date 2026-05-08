@@ -48,7 +48,7 @@ const AddCourt = () => {
 
   if (status === 'loading') return <LoadingSpinner />;
   
-  if (session?.user.role !== 'admin') {
+  if (session?.user.role !== 'ADMIN') {
     router.push('/not-authorized');
     return null; // Prevent rendering the form while redirecting
   }
