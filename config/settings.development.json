@@ -7,6 +7,35 @@
   "defaultCourts": [
     { "name": "Warrior Rec Center", "address": "2505 Campus Rd, Honolulu", "environment": "indoor", "capacity": 125, "present": 0, "condition": "good", "imageURL": "/warrior-rec.png" },
     { "name": "Kanewai Community Park", "address": "2695 Dole St, Honolulu", "environment": "outdoor", "capacity": 200, "present": 0, "condition": "bad", "imageURL": "/kanewai.jpg" },
-    { "name": "Manoa Valley District Park", "address": "2721 Kaaipu Ave, Honolulu", "environment": "outdoor", "capacity": 300, "present": 0, "condition": "very_good", "imageURL": "/mvdp.jpg" }
+    { "name": "Manoa Valley District Park", "address": "2721 Kaaipu Ave, Honolulu", "environment": "outdoor", "capacity": 300, "present": 0, "condition": "very_good", "imageURL": "/mvdp.jpg" },
+    { "name": "Ala Wai Community Park", "address": "2015 Kapiolani Blvd, Honolulu", "environment": "outdoor", "capacity": 200, "present": 0, "condition": "bad", "imageURL": "/ala-wai.jpg"},
+    { "name": "Petrie Community Park", "address": "1039 20th Ave, Honolulu", "environment": "outdoor", "capacity": 200, "present": 0, "condition": "good", "imageURL": "/petrie.jpg" },
+    { "name": "Kaimuki Community Park", "address": "3521 Waialae Ave, Honolulu", "environment": "outdoor", "capacity": 200, "present": 0, "condition": "bad", "imageURL": "/kaimuki.jpg" },
+    { "name": "Booth District Park", "address": "2331 Kanealii Ave, Honolulu", "environment": "outdoor", "capacity": 200, "present": 0, "condition": "very_good", "imageURL": "/booth.jpg" },
+    { "name": "Makiki District Park", "address": "1527 Keeaumoku St, Honolulu", "environment": "outdoor", "capacity": 200, "present": 0, "condition": "good", "imageURL": "/makiki.jpg" },
+    { "name": "McCully District Park", "address": "831 Pumehana St, Honolulu", "environment": "indoor", "capacity": 135, "present": 0, "condition": "very_good", "imageURL": "/mccully.jpg" },
+    { "name": "Kalakaua District Park", "address": "720 McNeill St, Honolulu", "environment": "outdoor", "capacity": 200, "present": 0, "condition": "bad", "imageURL": "/kalakaua.jpg" },
+     { "name": "Beretania Community Park", "address": "1290 Aala St, Honolulu, HI 96817", "environment": "outdoor", "capacity": 50, "present": 0, "condition": "good", "imageURL": "/beretania.jpg" },
+     { "name": "Lehua Community Park", "address": "781 Lehua Ave, Pearl City, HI 96782", "environment": "outdoor", "capacity": 60, "present": 0, "condition": "bad", "imageURL": "/lehua.png" },
+     { "name": "Kapāolono Community Park", "address": "701 11th Ave, Honolulu, HI 96816", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/kapaolono.jpg" },
+     { "name": "Dole Community Park", "address": "602 Magellan Ave, Honolulu, HI 96813", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/dole.jpg" },
+     { "name": "Crestview Community Park", "address": "94-1220 Lumikula St, Waipahu, HI 96797", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "very_good", "imageURL": "/crestview.jpg" },
+     { "name": "Fern Community Park", "address": "1201 Middle St, Honolulu, HI 96819", "environment": "outdoor", "capacity": 200, "present": 0, "condition": "very_good", "imageURL": "/fern.jpg" },
+     { "name": "Kamilo'iki Community Park", "address": "7750 Hawaii Kai Dr, Honolulu, HI 96825", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/kamiloiki.png" },
+     { "name": "Pacheco Neighborhood Park", "address": "1062 Waimano Home Rd, Pearl City, HI 96782", "environment": "outdoor", "capacity": 70, "present": 0, "condition": "mid", "imageURL": "/pacheco.jpg" },
+     { "name": "Nuuanu Valley Park", "address": "2925 Pali Hwy, Honolulu, HI 96817", "environment": "outdoor", "capacity": 150, "present": 0, "condition": "good", "imageURL": "/nuuanu.jpg" },
+     { "name": "Pālolo Valley District Park", "address": "2007 Palolo Ave, Honolulu, HI 96816", "environment": "outdoor", "capacity": 75, "present": 0, "condition": "good", "imageURL": "/palolo.jpg" },
+     { "name": "Pearl Ridge Community Park", "address": "98-944 Moanalua Rd, Aiea, HI 96701", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/pearl.jpg" },
+     { "name": "Maunalani Community Park", "address": "4625 Sierra Dr, Honolulu, HI 96816", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/maunalani.jpg" },
+     { "name": "Sheridan Community Park", "address": "833 Piikoi St, Honolulu, HI 96814", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/sheridan.jpg" },
+     { "name": "DeCorte Neighborhood Park", "address": "1570 Perry St, Honolulu, HI 96819", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/decorte.jpg" },
+     { "name": "Kuahelani Neighborhood Park", "address": "Mililani, HI 96789", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/kuahelani.jpg" },
+     { "name": "Kaonohi Basketball Courts", "address": "Kaonohi St +, Iho Pl, Aiea, HI 96701", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/kaonohi.jpg" },
+     { "name": "Kunia Neighborhood Park", "address": "941099-941149 Heahea St, Waipahu, HI 96797", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/kunia.jpg" },
+     { "name": "24 Hour Fitness", "address": "1000 Kamehameha Hwy, Pearl City, HI 96782", "environment": "indoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/fitness.jpg" },
+     { "name": "Aiea District Park", "address": "99-350 Aiea Heights Dr, Aiea, HI 96701", "environment": "indoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/aiea.jpg" },
+     { "name": "Honowai Neighborhood Park", "address": "94-660 Honowai St, Waipahu, HI 96797", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/honowai.jpg" },
+     { "name": "Salt Lake District Park", "address": "1159 Ala Lilikoi Pl, Honolulu, HI 96818", "environment": "outdoor", "capacity": 100, "present": 0, "condition": "good", "imageURL": "/salt.jpg" }
+
   ]
 }
