@@ -62,7 +62,6 @@ const EditProfile = ({ user }: { user: User }) => {
       <Container className="py-7">
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={6}>
-            <h1 className="text-center">Edit Profile</h1>
             <Card className="shadow-sm">
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
