@@ -105,26 +105,14 @@ const EditProfile = ({ user }: { user: User }) => {
                     </Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
-                    <Form.Label>Home Court ID</Form.Label>
-                    <Form.Control
-                      type="number"
-                      {...register('homeCourtId')}
-                      isInvalid={!!errors.homeCourtId}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.homeCourtId?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-
                   <Form.Group className="mb-4">
                     <Form.Label>Skill Level</Form.Label>
                     <Form.Select {...register('skill')} isInvalid={!!errors.skill}>
-                      <option value="trash">trash</option>
-                      <option value="beginner">beginner</option>
-                      <option value="mid">mid</option>
-                      <option value="pro">pro</option>
-                      <option value="goated">goated</option>
+                      <option value="trash">Trash</option>
+                      <option value="beginner">Beginner</option>
+                      <option value="mid">Mid</option>
+                      <option value="pro">Pro</option>
+                      <option value="goated">Goated</option>
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">
                       {errors.skill?.message}
