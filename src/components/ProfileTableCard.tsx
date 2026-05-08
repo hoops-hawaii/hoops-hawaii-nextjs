@@ -1,49 +1,93 @@
 'use client';
-import { Button, Image } from 'react-bootstrap';
+import { Button, Image, Card } from 'react-bootstrap';
 import { User } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import { removeFriend, addFriend } from '@/lib/dbActions';
 import Link from 'next/link';
 
+type UserWithCourt = User & {
+  homeCourt?: {
+    name: string;
+  } | null;
+};
+
 /* Renders a single profile. See profile/view/[username]/page.tsx. */
-const ProfileTableCard = ({ user, owner }: {user: User; owner: User}) => {
-    const { data: session, status } = useSession();
-    if (status === 'loading') return null;
-    const currentUser = session?.user?.username;
-    /*
-    const fList = prisma.user.findMany({
-      where: { username: { in: user.friends } },
-    });
-    */
+const ProfileTableCard = ({ user, owner }: { user: UserWithCourt; owner: User }) => {
+  const { data: session, status } = useSession();
+  if (status === 'loading') return null;
+  const currentUser = session?.user?.username;
+  /*
+  const fList = prisma.user.findMany({
+    where: { username: { in: user.friends } },
+  });
+  */
+
   return (
-    <tr key={user.id} className='position-relative clickable-row'>
-      <td> <Image src={user.pfp || '/default-pfp.png'} width={50} alt='profile-image'/> </td>
-      <td>
-        {/* 2. Wrap the name in a Link with 'stretched-link' */}
-        <Link 
-            href={`/profile/view/${user.username}`} 
-            className="stretched-link text-decoration-none text-black"
-          >
-          {user.username}
-        </Link>
-      </td>
-      <td>{user.skill}</td>
-      <td>{user.homeCourtId}</td>
-      <td>
-        
-        {currentUser === user.username ? (
-          <p>You</p>
-        ) : owner.friends.includes(user.username) ? (
-      <Button className="btn btn-danger position-relative z-3" onClick={(e) => {e.stopPropagation(); removeFriend(currentUser!, user.username)}}>
-        Remove Friend
-      </Button>
-      ) : (
-      <Button className="btn btn-primary position-relative z-3" onClick={(e) => {e.stopPropagation(); addFriend(currentUser!, user.username)}}>
-        Add Friend
-      </Button>
-    )}
-      </td>
-    </tr>
+    <Card className="mb-3 shadow-sm border-0 rounded-4">
+      <Card.Body className="d-flex align-items-center justify-content-between">
+
+        {/* LEFT SIDE */}
+        <div className="d-flex align-items-center gap-3">
+
+          <Image
+            src={user.pfp || "/default-pfp.png"}
+            width={55}
+            height={55}
+            roundedCircle
+            className="border shadow-sm"
+            style={{ objectFit: "cover" }}
+            alt="profile-image"
+          />
+
+          <div>
+            <Link
+              href={`/profile/view/${user.username}`}
+              className="text-decoration-none fw-bold text-dark"
+            >
+              {user.username}
+            </Link>
+
+            <div className="text-muted small">
+              Skill: {user.skill}
+            </div>
+
+            <div className="text-muted small">
+              Home Court: {user.homeCourt?.name || 'None'}
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT SIDE (UNCHANGED LOGIC BLOCK) */}
+        <div>
+          {currentUser === user.username ? (
+            <span className="badge bg-dark px-3 py-2 rounded-pill">
+              You
+            </span>
+          ) : owner.friends.includes(user.username) ? (
+            <Button
+              className="bg-success btn btn-danger position-relative z-3"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeFriend(currentUser!, user.username);
+              }}
+            >
+              Remove Friend
+            </Button>
+          ) : (
+            <Button
+              className="bg-success btn btn-primary position-relative z-3"
+              onClick={(e) => {
+                e.stopPropagation();
+                addFriend(currentUser!, user.username);
+              }}
+            >
+              Add Friend
+            </Button>
+          )}
+        </div>
+
+      </Card.Body>
+    </Card>
   );
 };
 

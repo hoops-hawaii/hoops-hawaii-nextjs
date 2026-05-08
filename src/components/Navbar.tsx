@@ -25,13 +25,13 @@ const NavBar: React.FC = () => {
             {currentUser && (
               <>
                 <Nav.Link id="list-stuff-nav" href="/list" active={pathName === '/list'}>
-                  List Courts
+                  My Courts
                 </Nav.Link>
                 <Nav.Link id="add-stuff-nav" href="/find-courts" active={pathName === '/find-courts'}>
                   Find Courts
                 </Nav.Link>
                 <Nav.Link id="add-stuff-nav" href="/team/view" active={pathName === '/add'}>
-                  Looking For Team
+                  Look For Team
                 </Nav.Link>
                 <Nav.Link id="add-stuff-nav" href="/hoopers" active={pathName === '/hoopers'}>
                   All Hoopers
