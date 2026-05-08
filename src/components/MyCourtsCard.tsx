@@ -10,15 +10,16 @@ import { setHomeCourt, removeHomeCourt } from '@/lib/dbActions';
 type CourtItemProps = {
   court: Court;
   onRemove?: (courtId: number) => void;
+  homeCourtId?: number | null;
 }
 
 
 /* Renders a single row in the List Stuff table. See list/page.tsx. */
-const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
+const MyCourtCard = ({ court, onRemove, homeCourtId }: CourtItemProps) => {
   const formatLabel = (value: string) => value.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
-  const [ flipped, setFlipped ] = useState(false);
-  const [ present, setPresent ] = useState(court.present);
-  const [isHome, setIsHome] = useState(false);
+  const [flipped, setFlipped] = useState(false);
+  const [present, setPresent] = useState(court.present);
+  const isHome = homeCourtId === court.id;
   const capacity = court.capacity;
   const router = useRouter();
   const occupancy = `${present} / ${capacity}`;
@@ -81,20 +82,18 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
   const handleSetHome = async () => {
     try {
       await setHomeCourt(court.id);
-      setIsHome(true);
+      router.refresh(); // important
     } catch (err) {
       console.error(err);
-      alert("Failed to set home court");
     }
   };
 
   const handleRemoveHome = async () => {
     try {
       await removeHomeCourt();
-      setIsHome(false);
+      router.refresh(); // important
     } catch (err) {
       console.error(err);
-      alert("Failed to remove home court");
     }
   };
 
@@ -132,15 +131,15 @@ const MyCourtCard = ({ court, onRemove }: CourtItemProps) => {
           <Card.Img src={court.imageURL ?? "/warrior-rec.png"} alt={court.name} className="h-100 w-100" style={{ objectFit: "cover" }} />
           <div className="position-absolute top-0 w-100 p-3 bg-dark bg-opacity-50">
             <div className="top-0 w-100 p-3 bg-dark bg-opacity-75 text-white">
-            <h5 className="fw-bold">{court.name}</h5>
-            <hr />
-            <p><strong>Address:</strong> {court.address}</p>
-            <p><strong>Condition:</strong> {formatLabel(court.condition)}</p>
-            <p><strong>Environment:</strong> {formatLabel(court.environment)}</p>
-            <p><strong>Capacity:</strong> {capacity}</p>
-            <p><strong>Current:</strong> {present}</p>
-          </div>
-          
+              <h5 className="fw-bold">{court.name}</h5>
+              <hr />
+              <p><strong>Address:</strong> {court.address}</p>
+              <p><strong>Condition:</strong> {formatLabel(court.condition)}</p>
+              <p><strong>Environment:</strong> {formatLabel(court.environment)}</p>
+              <p><strong>Capacity:</strong> {capacity}</p>
+              <p><strong>Current:</strong> {present}</p>
+            </div>
+
           </div>
           <div className="position-absolute bottom-0 w-100 p-3 bg-dark bg-opacity-50">
             <div className="position-absolute bottom-0 w-100 p-3">

@@ -5,8 +5,14 @@ import { useSession } from 'next-auth/react';
 import { removeFriend, addFriend } from '@/lib/dbActions';
 import Link from 'next/link';
 
+type UserWithCourt = User & {
+  homeCourt?: {
+    name: string;
+  } | null;
+};
+
 /* Renders a single profile. See profile/view/[username]/page.tsx. */
-const ProfileTableCard = ({ user, owner }: { user: User; owner: User }) => {
+const ProfileTableCard = ({ user, owner }: { user: UserWithCourt; owner: User }) => {
   const { data: session, status } = useSession();
   if (status === 'loading') return null;
   const currentUser = session?.user?.username;
@@ -15,6 +21,7 @@ const ProfileTableCard = ({ user, owner }: { user: User; owner: User }) => {
     where: { username: { in: user.friends } },
   });
   */
+
   return (
     <Card className="mb-3 shadow-sm border-0 rounded-4">
       <Card.Body className="d-flex align-items-center justify-content-between">
@@ -45,7 +52,7 @@ const ProfileTableCard = ({ user, owner }: { user: User; owner: User }) => {
             </div>
 
             <div className="text-muted small">
-              Home Court: {user.homeCourtId}
+              Home Court: {user.homeCourt?.name || 'None'}
             </div>
           </div>
         </div>
