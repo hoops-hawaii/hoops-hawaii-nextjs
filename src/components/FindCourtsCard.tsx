@@ -18,26 +18,6 @@ const FindCourtsCard = ({ court }: FindCourtCardProps) => {
   const occupancy = `${court.present} / ${capacity}`;
 
   const handleAdd = async () => {
-    /*
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/courts/${court.id}/save`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        alert(data?.error || 'Failed to add court');
-        return;
-      }
-      setAdded(true);
-    } catch (error) {
-      console.error(error);
-      alert('Failed to add court');
-    } finally {
-      setLoading(false);
-    }
-      */
     await saveCourts(court.id);
   };
 

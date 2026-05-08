@@ -30,7 +30,7 @@ const ProfileTableCard = ({ user, owner }: { user: UserWithCourt; owner: User })
 
         {/* LEFT SIDE */}
         <div className="d-flex align-items-center gap-3">
-
+          <Link href={`/profile/view/${user.username}`}>
           <Image
             src={user.pfp || "/default-pfp.png"}
             width={55}
@@ -40,6 +40,7 @@ const ProfileTableCard = ({ user, owner }: { user: UserWithCourt; owner: User })
             style={{ objectFit: "cover" }}
             alt="profile-image"
           />
+          </Link>
 
           <div>
             <Link

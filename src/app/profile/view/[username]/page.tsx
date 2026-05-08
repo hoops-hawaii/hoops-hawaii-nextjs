@@ -112,7 +112,7 @@ export default async function ViewProfile({ params }: { params: { username: stri
                     placement="top"
                     overlay={<Tooltip>{u.username}</Tooltip>}
                   >
-                    <Link href={`/profile/${u.username}`}>
+                    <Link href={`/profile/view/${u.username}`}>
                       <Image
                         src={u.pfp || "/default-pfp.png"}
                         width={45}
