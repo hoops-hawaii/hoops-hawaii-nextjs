@@ -22,6 +22,7 @@ const ProfileTableCard = ({ user, owner }: { user: UserWithCourt; owner: User })
   });
   */
 
+
   return (
     <Card className="mb-3 shadow-sm border-0 rounded-4">
       <Card.Body className="d-flex align-items-center justify-content-between">

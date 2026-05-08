@@ -34,7 +34,11 @@ const HoopersPage = async () => {
     });
   }
 
-  const users = await prisma.user.findMany({});
+  const users = await prisma.user.findMany({
+    include: {
+      homeCourt: true,
+    },
+  });
 
   const ownerUser: User =
     owner ?? {
