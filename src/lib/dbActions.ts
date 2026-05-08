@@ -291,3 +291,47 @@ export async function removeFriend(username: string, friendUsername: string) {
   });
   refresh();
 }
+
+export async function setHomeCourt(courtId: number) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error("Not authenticated");
+  }
+
+  const userId = Number(session.user.id);
+
+  // OPTIONAL safety: ensure court exists
+  const court = await prisma.court.findUnique({
+    where: { id: courtId },
+  });
+
+  if (!court) {
+    throw new Error("Court not found");
+  }
+
+  // Set ONLY one home court per user (overwrite old one)
+  return prisma.user.update({
+    where: { id: userId },
+    data: {
+      homeCourtId: courtId,
+    },
+  });
+}
+
+export async function removeHomeCourt() {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error("Not authenticated");
+  }
+
+  const userId = Number(session.user.id);
+
+  return prisma.user.update({
+    where: { id: userId },
+    data: {
+      homeCourtId: null,
+    },
+  });
+}

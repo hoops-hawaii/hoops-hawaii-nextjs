@@ -1,7 +1,7 @@
 'use client';
 import { User } from '@prisma/client';
 import React, { useState, useMemo } from 'react';
-import { Table, Form, InputGroup } from 'react-bootstrap';
+import { Container, Form, InputGroup } from 'react-bootstrap';
 import ProfileTableCard from './ProfileTableCard';
 
 const SearchPage = ({ allUsers, owner }: { allUsers: User[]; owner: User }) => {
@@ -15,42 +15,35 @@ const SearchPage = ({ allUsers, owner }: { allUsers: User[]; owner: User }) => {
   }, [searchTerm, allUsers]);
 
   return (
-    <div className="mt-4">
-      <InputGroup className="mb-3">
-        <InputGroup.Text>🔍</InputGroup.Text>
-        <Form.Control
-          placeholder="Search usernames..."
-          aria-label="Search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </InputGroup>
-
-      <Table responsive hover className="align-middle">
-        <thead>
-          <tr>
-            <th>Pfp</th>
-            <th>Name</th>
-            <th>Skill</th>
-            <th>Home Court</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredUsers.length > 0 ? (
-            filteredUsers.map((user) => (
-              <ProfileTableCard key={user.id} user={user} owner={owner} />
-            ))
-          ) : (
-            <tr>
-              <td colSpan={5} className="text-center text-muted py-4">
-                No users found matching
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
-    </div>
+    <Container className="py-4">
+      <div className="d-flex justify-content-center mb-4">
+        <div style={{ width: "100%", maxWidth: "500px" }}>
+          <InputGroup>
+            <InputGroup.Text>🔍</InputGroup.Text>
+            <Form.Control
+              placeholder="Search usernames..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </InputGroup>
+        </div>
+      </div>
+      <div className="d-flex flex-column gap-3">
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map((user) => (
+            <ProfileTableCard
+              key={user.id}
+              user={user}
+              owner={owner}
+            />
+          ))
+        ) : (
+          <p className="text-center text-muted">
+            No users found matching
+          </p>
+        )}
+      </div>
+    </Container>
   );
 };
 

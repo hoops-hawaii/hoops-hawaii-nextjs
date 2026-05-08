@@ -16,36 +16,36 @@ const View = async () => {
   );
   const currentUser = session?.user?.username || '';
   const user = await prisma.user.findUnique({
-  where: { username: currentUser },
-  select: { teamId: true },
-});
+    where: { username: currentUser },
+    select: { teamId: true },
+  });
 
   const hasTeam = !!user?.teamId;
   const teams = await prisma.team.findMany({
-  include: {
-    users: true,
-    owner: true,
-  },
-});
+    include: {
+      users: true,
+      owner: true,
+    },
+  });
   return (
     <main>
       <Container fluid className="align-items-center pt-3">
-  <Row className="justify-content-center">
-    <Col md="auto">
-      <div className="d-flex gap-3">
-        <Link href="/team/create" className="btn btn-warning">
-          Create Team
-        </Link>
+        <Row className="justify-content-center">
+          <Col md="auto">
+            <div className="d-flex gap-3">
+              <Link href="/team/create" className="btn btn-warning">
+                Create Team
+              </Link>
 
-        {hasTeam && (
-          <Link href="/team/teammates" className="btn btn-success">
-            View My Team
-          </Link>
-        )}
-      </div>
-    </Col>
-  </Row>
-</Container>
+              {hasTeam && (
+                <Link href="/team/teammates" className="btn btn-success">
+                  View My Team
+                </Link>
+              )}
+            </div>
+          </Col>
+        </Row>
+      </Container>
       <TeamSearch teams={teams} hasTeam={hasTeam} />
     </main>
   );
