@@ -1,4 +1,4 @@
-import { Col, Container, Row, Image, Table, Button, Card } from 'react-bootstrap';
+import { Col, Container, Row, Image, Button, Card } from 'react-bootstrap';
 import { prisma } from '@/lib/prisma';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
@@ -56,20 +56,6 @@ export default async function ViewProfile({ params }: { params: { username: stri
   });
 
   const formatSkill = (skill: string) => skill.charAt(0).toUpperCase() + skill.slice(1);
-
-  const ownerUser = owner ?? {
-    id: ownerId || 0,
-    username: ownerUsername || 'Unknown',
-    pfp: null,
-    password: '',
-    role: 'USER',
-    skill: 'mid',
-    bio: '',
-    homeCourtId: null,
-    teamId: null,
-    friends: [],
-    presentAtId: null,
-  };
 
   return (
     <main className="min-vh-100 d-flex justify-content-center align-items-center py-5">

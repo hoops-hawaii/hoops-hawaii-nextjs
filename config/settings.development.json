@@ -1,8 +1,27 @@
 {
   "defaultAccounts": [
-    { "username": "admin", "password": "changeme", "role": "ADMIN", "bio": "I am the administrator of the Hoops Hawaii app. I oversee the management of user accounts, court information, and ensure that the app runs smoothly for all users." },
-    { "username": "john", "password": "changeme", "role": "USER", "bio": "I am a basketball enthusiast who loves to play and watch the game. I have been playing basketball since I was a kid and enjoy competing with friends at local courts." },
-    { "username": "jane", "password": "changeme", "role": "USER", "bio": "I am a basketball enthusiast who loves to play and watch the game. I have been playing basketball since I was a kid and enjoy competing with friends at local courts." }
+    { "username": "admin", "password": "changeme", "role": "ADMIN", "skill": "goated", "bio": "I am the administrator of the Hoops Hawaii app. I oversee the management of user accounts, court information, and ensure that the app runs smoothly for all users." },
+    { "username": "john", "password": "changeme", "role": "USER", "skill": "mid", "bio": "I am a basketball enthusiast who loves to play and watch the game. I have been playing basketball since I was a kid and enjoy competing with friends at local courts." },
+    { "username": "jane", "password": "changeme", "role": "USER", "skill": "mid", "bio": "I am a basketball enthusiast who loves to play and watch the game. I have been playing basketball since I was a kid and enjoy competing with friends at local courts." },
+    { "username": "josh", "password": "password", "role": "USER", "skill": "beginner", "bio": "Looking for courts that aren't overcrowded" },
+    { "username": "jean", "password": "password", "role": "USER", "skill": "mid", "bio": "Trying to organize more local pickup games" },
+    { "username": "jack", "password": "password", "role": "USER", "skill": "pro", "bio": "Always ready for a quick 1v1" },
+    { "username": "jazz", "password": "password", "role": "USER", "skill": "mid", "bio": "Trying to organize more local pickup games" },
+    { "username": "james", "password": "password", "role": "USER", "skill": "mid", "bio": "Just looking for consistent pickup runs" },
+    { "username": "jordan", "password": "password", "role": "USER", "skill": "pro", "bio": "Shooting guard who never misses open gyms" },
+    { "username": "jay", "password": "password", "role": "USER", "skill": "beginner", "bio": "Down for 3v3s anytime after school" },
+    { "username": "jonah", "password": "password", "role": "USER", "skill": "mid", "bio": "Trying to find competitive but chill games" },
+    { "username": "jaden", "password": "password", "role": "USER", "skill": "beginner", "bio": "Always looking for less crowded courts" },
+    { "username": "joel", "password": "password", "role": "USER", "skill": "pro", "bio": "Big man looking for rebounds and runs" },
+    { "username": "julian", "password": "password", "role": "USER", "skill": "mid", "bio": "Organizing weekend pickup games with friends" },
+    { "username": "jeremy", "password": "password", "role": "USER", "skill": "goated", "bio": "Gym rat who shows up rain or shine" },
+    { "username": "justin", "password": "password", "role": "USER", "skill": "beginner", "bio": "New in town, looking for court regulars" },
+    { "username": "jace", "password": "password", "role": "USER", "skill": "pro", "bio": "Quick guard who loves fast breaks" },
+    { "username": "jon", "password": "password", "role": "USER", "skill": "mid", "bio": "Just trying to get better every run I join" },
+    { "username": "jorge", "password": "password", "role": "USER", "skill": "beginner", "bio": "New player learning the basics and having fun" },
+    { "username": "jacob", "password": "password", "role": "USER", "skill": "pro", "bio": "Lockdown defender who takes every matchup seriously" },
+    { "username": "jerry", "password": "password", "role": "USER", "skill": "trash", "bio": "Here for cardio and occasional lucky shots" },
+    { "username": "julius", "password": "password", "role": "USER", "skill": "goated", "bio": "Dominates every court he steps on" }
   ],
   "defaultCourts": [
     { "name": "Warrior Rec Center", "address": "2505 Campus Rd, Honolulu", "environment": "indoor", "capacity": 125, "present": 0, "condition": "good", "imageURL": "/warrior-rec.png" },

@@ -16,6 +16,7 @@ const ProfileTableCard = ({ user, owner }: { user: UserWithCourt; owner: User })
   const { data: session, status } = useSession();
   if (status === 'loading') return null;
   const currentUser = session?.user?.username;
+  const formatSkill = (skill: string) => skill.charAt(0).toUpperCase() + skill.slice(1)
   /*
   const fList = prisma.user.findMany({
     where: { username: { in: user.friends } },
@@ -48,7 +49,7 @@ const ProfileTableCard = ({ user, owner }: { user: UserWithCourt; owner: User })
             </Link>
 
             <div className="text-muted small">
-              Skill: {user.skill}
+              Skill: {formatSkill(user.skill)}
             </div>
 
             <div className="text-muted small">

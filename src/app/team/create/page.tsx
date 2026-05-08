@@ -21,7 +21,7 @@ const CreateTeamPage: React.FC = () => {
     await CreateTeam({
       name: data.name,
       description: data.description,
-  });
+    });
 
   };
 
@@ -34,12 +34,10 @@ const CreateTeamPage: React.FC = () => {
               <Card.Header className="bg-green text-center">
                 <h2 className="text-center text-dark">Create Team</h2>
               </Card.Header>
-
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                   <Form.Group className="form-group">
                     <Form.Label>Team Name</Form.Label>
-
                     <textarea
                       {...register('name', {
                         required: 'Name is required',
@@ -50,15 +48,12 @@ const CreateTeamPage: React.FC = () => {
                       })}
                       className={`form-control ${errors.name ? 'is-invalid' : ''}`}
                     />
-
                     <div className="invalid-feedback">
                       {errors.description?.message}
                     </div>
                   </Form.Group>
-
                   <Form.Group className="form-group">
                     <Form.Label>Team Description</Form.Label>
-
                     <textarea
                       {...register('description', {
                         required: 'Description is required',
@@ -74,7 +69,6 @@ const CreateTeamPage: React.FC = () => {
                       {errors.description?.message}
                     </div>
                   </Form.Group>
-
                   <Form.Group className="form-group py-3">
                     <Row>
                       <Col>
@@ -97,7 +91,6 @@ const CreateTeamPage: React.FC = () => {
 
                 </Form>
               </Card.Body>
-
               <Card.Footer className="bg-green text-center">
                 You can only own one team.
               </Card.Footer>
