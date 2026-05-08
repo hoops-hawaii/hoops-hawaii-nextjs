@@ -13,7 +13,7 @@ const SignIn = () => {
     const username = target.username.value;
     const password = target.password.value;
     await signIn('credentials', {
-      callbackUrl: '/list',
+      callbackUrl: `/`,
       username,
       password,
     });

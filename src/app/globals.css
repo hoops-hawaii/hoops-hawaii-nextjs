@@ -11,6 +11,8 @@ body {
 .landing-page {
   background: fixed center url("/landingp1.jpg");
   background-size: cover;
+  height: auto;
+  min-height: 100%;
 }
 
 .wrapper {
